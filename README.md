@@ -2,53 +2,53 @@
 
 A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar with customizable colors and themes.
 
-## 📋 Daftar Isi
-- [Apa Itu WordClock?](#apa-itu-wordclock)
-- [Fitur Utama](#fitur-utama)
-- [Instalasi](#instalasi)
-- [Cara Menggunakan](#cara-menggunakan)
-- [Kustomisasi](#kustomisasi)
+## 📋 Table of Contents
+- [What is WordClock?](#what-is-wordclock)
+- [Key Features](#key-features)
+- [Installation](#installation)
+- [How to Use](#how-to-use)
+- [Customization](#customization)
 
 ---
 
-## 🎯 Apa Itu WordClock?
+## 🎯 What is WordClock?
 
-**WordClock** adalah aplikasi taskbar kecil yang menampilkan waktu real-time untuk **hingga 5 timezone berbeda** langsung di taskbar Windows 11 Anda. Aplikasi ini berjalan di background (system tray) dan tidak memerlukan membuka window besar atau terminal.
+**WordClock** is a lightweight taskbar application that displays real-time for **up to 5 different timezones** directly on your Windows 11 taskbar. The application runs in the background (system tray) and does not require opening a large window or terminal.
 
-### Gunakan Untuk:
-- ✅ Koordinasi dengan tim di timezone berbeda
-- ✅ Monitor waktu real-time di berbagai negara
-- ✅ Cek waktu lokal tanpa buka aplikasi lain
-- ✅ Customizable sesuai preferensi warna
+### Use Cases:
+- ✅ Coordinate with teams across different timezones
+- ✅ Monitor real-time hours in various countries
+- ✅ Check local times without opening other apps
+- ✅ Customizable to match your color preferences
 
-**Ukuran:** Frameless, compact bar (~420x32px)  
+**Size:** Frameless, compact bar (~420x32px)  
 **Memory:** Minimal (~30-50 MB)  
 **OS:** Windows 11 (tested on latest builds)
 
 ---
 
-## ✨ Fitur Utama
+## ✨ Key Features
 
 ### 1. **Multi-Timezone Display**
-   - Tampil hingga **5 timezone sekaligus**
-   - Format **24-jam** (HH:mm)
-   - Tampil **GMT offset** (misal: `GMT+2`, `GMT+5:30`, `GMT-5`)
-   - Update real-time setiap detik
+   - Displays up to **5 timezones simultaneously**
+   - **24-hour** format (HH:mm)
+   - Shows **GMT offset** (e.g., `GMT+2`, `GMT+5:30`, `GMT-5`)
+   - Updates in real-time every second
 
-### 2. **Customizable Timezone**
-   - Pilih dari **semua Windows timezone ID**
-   - Edit label custom (misal: "US" → "New York")
-   - Reorder timezone dengan ↑↓ buttons
-   - Simpan config otomatis ke JSON
+### 2. **Customizable Timezones**
+   - Choose from **all Windows timezone IDs**
+   - Edit custom labels (e.g., "US" → "New York")
+   - Reorder timezones using ↑↓ buttons
+   - Automatically saves configuration to JSON
 
-### 3. **Custom Colors & Theme**
-   - Ubah warna **background**, **text**, **label**
-   - Format hex color (`#FFFFFF`, `#FF0000`, dll)
-   - Default: **Putih text** di dark background
+### 3. **Custom Colors & Themes**
+   - Change **background**, **text**, and **label** colors
+   - Hex color format (`#FFFFFF`, `#FF0000`, etc.)
+   - Default: **White text** on a dark background
    - Real-time preview
 
 ### 4. **System Tray Integration**
-   - **Tray Icon** untuk quick access
+   - **Tray Icon** for quick access
    - **Context menu:**
      - Position (Left / Center / Right)
      - Settings (customization)
@@ -59,12 +59,12 @@ A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar
 ### 5. **Window Management**
    - **Frameless, always-on-top** window
    - **Drag-to-move** functionality
-   - **Hide dari Alt+Tab** (WS_EX_TOOLWINDOW)
-   - **Prevent accidental close** (hide instead)
+   - **Hidden from Alt+Tab** (WS_EX_TOOLWINDOW)
+   - **Prevents accidental close** (hides instead)
 
 ---
 
-## 📥 Instalasi
+## 📥 Installation
 
 ### **Option 1: Download & Run (Recommended)**
 
@@ -73,24 +73,24 @@ A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar
    C:\Users\[YourUsername]\OneDrive\Documents\Nimbalyst\WordClockTaskbar\bin\Release\net8.0-windows\win-x64\publish\WordClockTaskbar.exe
    ```
 
-2. **Jalankan (double-click):**
-   - Aplikasi langsung berjalan di system tray
-   - Tidak perlu install atau administrator
+2. **Run (double-click):**
+   - The app will run immediately in the system tray
+   - No installation or administrator rights required
 
-3. **(Optional) Copy ke lokasi tetap:**
-   - Copy `WordClockTaskbar.exe` ke Desktop atau folder favorit
-   - Double-click kapan saja untuk jalankan
+3. **(Optional) Move to a permanent location:**
+   - Copy `WordClockTaskbar.exe` to your Desktop or preferred folder
+   - Double-click anytime to launch
 
-### **Option 2: Auto-Start dengan Windows**
+### **Option 2: Auto-Start with Windows**
 
-1. Jalankan app sekali
-2. Right-click tray icon → **"Start with Windows"** ✓
-3. App akan otomatis run saat boot
+1. Run the app once
+2. Right-click the tray icon → **"Start with Windows"** ✓
+3. The app will automatically run on boot
 
-### **Option 3: Build dari Source (Developer)**
+### **Option 3: Build from Source (Developer)**
 
 ```bash
-# Clone atau buka folder project
+# Clone or open the project folder
 cd WordClockTaskbar
 
 # Build
@@ -107,47 +107,47 @@ dotnet publish -c Release -r win-x64 --self-contained false -p:PublishSingleFile
 
 ---
 
-## 🎮 Cara Menggunakan
+## 🎮 How to Use
 
-### **Tampilan Default**
+### **Default View**
 ```
 ┌─────────────────────────────────────────┐
 │ US 14:30 GMT-5 | UK 19:30 GMT+0 | IN 00:00 GMT+5:30 │
 └─────────────────────────────────────────┘
 ```
-- **Label:** Timezone identifier (US, UK, IN, dll)
-- **Time:** Waktu HH:mm (format 24-jam)
-- **GMT:** Offset dari GMT (misal: +5:30, -5, +2)
+- **Label:** Timezone identifier (US, UK, IN, etc.)
+- **Time:** HH:mm (24-hour format)
+- **GMT:** Offset from GMT (e.g., +5:30, -5, +2)
 
-### **Interaksi:**
+### **Interaction:**
 
 #### **Right-Click → Position**
-- **Left:** Posisi di kiri taskbar
-- **Center:** Posisi di tengah taskbar
-- **Right:** Posisi di dekat system clock (default)
+- **Left:** Position on the left side of the taskbar
+- **Center:** Position in the center of the taskbar
+- **Right:** Position near the system clock (default)
 
 #### **Right-Click → Settings**
-Buka window untuk customize:
-- ➕ **Add Timezone** - Tambah timezone baru
-- ⬆️ **Move Up** - Ubah urutan
-- ⬇️ **Move Down** - Ubah urutan
-- ✕ **Remove** - Hapus timezone
-- 💾 **Save** - Simpan config
+Open customization window:
+- ➕ **Add Timezone** - Add a new timezone
+- ⬆️ **Move Up** - Change order
+- ⬇️ **Move Down** - Change order
+- ✕ **Remove** - Delete a timezone
+- 💾 **Save** - Save configuration
 
 #### **Right-Click → Show/Hide Window**
-- Toggle visibility window
-- Tetap running di background
+- Toggle window visibility
+- Remains running in the background
 
 #### **Right-Click → Start with Windows**
-- Enable auto-launch saat boot
-- Toggle on/off sesuai kebutuhan
+- Enable auto-launch on boot
+- Toggle on/off as needed
 
 #### **Drag Window**
-- Click & drag clock bar untuk reposition
+- Click & drag the clock bar to reposition
 
 ---
 
-## 🎨 Kustomisasi
+## 🎨 Customization
 
 ### **Settings Window**
 
@@ -168,29 +168,29 @@ Buka window untuk customize:
 - `India Standard Time` (India)
 - `Central European Standard Time` (EU)
 - `Tokyo Standard Time` (Japan)
-- Dll (all Windows timezone IDs available)
+- Etc. (all Windows timezone IDs available)
 
 #### **2. Theme Colors**
 ```
 ┌─ Theme Colors ──────────────────────┐
 │ Background: #E6202020               │
-│ Text Color: #FFFFFF (putih)         │
-│ Label Color: #FFFFFF (putih)        │
+│ Text Color: #FFFFFF (white)         │
+│ Label Color: #FFFFFF (white)        │
 └─────────────────────────────────────┘
 ```
 
-**Hex Color Format:** `#RRGGBB` atau `#AARRGGBB`
+**Hex Color Format:** `#RRGGBB` or `#AARRGGBB`
 
-**Contoh:**
-| Warna | Hex Value |
+**Examples:**
+| Color | Hex Value |
 |-------|-----------|
-| Putih | `#FFFFFF` |
-| Hitam | `#000000` |
-| Merah | `#FF0000` |
-| Hijau | `#00FF00` |
-| Biru | `#0000FF` |
-| Emas | `#FFD700` |
-| Orange | `#FFA500` |
+| White | `#FFFFFF` |
+| Black | `#000000` |
+| Red   | `#FF0000` |
+| Green | `#00FF00` |
+| Blue  | `#0000FF` |
+| Gold  | `#FFD700` |
+| Orange| `#FFA500` |
 
 **Default Config:**
 ```json
@@ -209,7 +209,7 @@ Buka window untuk customize:
 }
 ```
 
-**Lokasi Config:**
+**Config Location:**
 ```
 C:\Users\[YourUsername]\AppData\Roaming\WordClockTaskbar\wordclock-config.json
 ```
@@ -218,37 +218,37 @@ C:\Users\[YourUsername]\AppData\Roaming\WordClockTaskbar\wordclock-config.json
 
 ## 🔧 Troubleshooting
 
-### **App tidak muncul di taskbar?**
-- Cek system tray (kanan bawah, tombol ^ untuk expand)
+### **App doesn't appear on the taskbar?**
+- Check the system tray (bottom right, ^ button to expand)
 - Right-click icon → "Show Window"
 
-### **Timezone tidak update?**
-- Restart aplikasi
-- Pastikan timezone ID valid (lihat Settings)
+### **Timezone doesn't update?**
+- Restart the application
+- Ensure the timezone ID is valid (check Settings)
 
-### **Warna tidak berubah?**
-- Pastikan format hex valid (`#RRGGBB`)
-- Restart app setelah save settings
-- Check: `wordclock-config.json` di AppData
+### **Color doesn't change?**
+- Ensure the hex format is valid (`#RRGGBB`)
+- Restart the app after saving settings
+- Check: `wordclock-config.json` in AppData
 
-### **App close sendiri?**
-- Ini normal jika Anda close window
-- Window akan hide, app tetap running di background
-- Right-click tray → "Show Window" untuk tampilkan lagi
+### **App closes automatically?**
+- This is normal if you close the window
+- The window hides, but the app stays running in the background
+- Right-click tray → "Show Window" to display it again
 
 ---
 
-## 📱 Screenshot Contoh
+## 📱 Screenshot Example
 
-**Clock pada taskbar:**
+**Clock on taskbar:**
 ```
 [System icons] [WordClock: US 14:30 GMT-5 | UK 19:30 GMT+0 | IN 00:00 GMT+5:30] [System clock]
 ```
 
 **Settings Window:**
-- Timezone list dengan edit/reorder/remove
-- Color picker untuk background, text, label
-- Save button untuk apply
+- Timezone list with edit/reorder/remove
+- Color picker for background, text, label
+- Save button to apply changes
 
 ---
 
@@ -296,10 +296,10 @@ Free to use & modify for personal/commercial use.
 
 ## 🤝 Support
 
-Untuk masalah atau feature request:
-- Edit config file langsung di `AppData\Roaming\WordClockTaskbar\wordclock-config.json`
-- Restart aplikasi untuk apply changes
-- Check event log jika ada error
+For issues or feature requests:
+- Edit the config file directly at `AppData\Roaming\WordClockTaskbar\wordclock-config.json`
+- Restart the application to apply changes
+- Check event logs if any errors occur
 
 ---
 
