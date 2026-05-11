@@ -59,13 +59,10 @@ public partial class App : Application
         {
             if (MainWindow is MainWindow mw)
             {
-                if (mw.Visibility == System.Windows.Visibility.Visible)
+                if (mw.IsVisible)
                     mw.Hide();
                 else
-                {
-                    mw.Show();
-                    mw.Activate();
-                }
+                    mw.EnsureVisible();
             }
         });
 
@@ -125,8 +122,7 @@ public partial class App : Application
             {
                 if (MainWindow is MainWindow mw)
                 {
-                    mw.Show();
-                    mw.Activate();
+                    mw.EnsureVisible();
                 }
             }
         };

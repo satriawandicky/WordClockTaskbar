@@ -34,40 +34,60 @@ public static class TaskbarHelper
 
     public static void PositionOnTaskbar(Window window, Position position)
     {
-        var taskbarHandle = FindWindow("Shell_TrayWnd", null);
-        if (taskbarHandle == IntPtr.Zero) return;
-
-        GetWindowRect(taskbarHandle, out var taskbarRect);
-
-        int taskbarTop = taskbarRect.Top;
-        int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
-        int taskbarWidth = taskbarRect.Right - taskbarRect.Left;
-
         double dpiScale = GetDpiForSystem() / 96.0;
-        double windowWidth = window.Width * dpiScale;
-        double windowHeight = window.Height * dpiScale;
+        var workArea = SystemParameters.WorkArea;
+        var primaryWidth = SystemParameters.PrimaryScreenWidth;
+        var primaryHeight = SystemParameters.PrimaryScreenHeight;
 
-        double left = position switch
+        var taskbarHandle = FindWindow("Shell_TrayWnd", null);
+
+        double topInDip;
+        double taskbarLeftDip = 0;
+        double taskbarRightDip = primaryWidth;
+        double trayLeftDip = primaryWidth - 200;
+
+        if (taskbarHandle != IntPtr.Zero && GetWindowRect(taskbarHandle, out var taskbarRect))
         {
-            Position.Left => taskbarRect.Left + 60,
-            Position.Center => taskbarRect.Left + (taskbarWidth - windowWidth) / 2.0,
-            Position.Right => GetTrayLeft(taskbarHandle, taskbarRect) - windowWidth - 4,
-            _ => taskbarRect.Left + (taskbarWidth - windowWidth) / 2.0
+            double taskbarTopDip = taskbarRect.Top / dpiScale;
+            double taskbarHeightDip = (taskbarRect.Bottom - taskbarRect.Top) / dpiScale;
+            taskbarLeftDip = taskbarRect.Left / dpiScale;
+            taskbarRightDip = taskbarRect.Right / dpiScale;
+
+            topInDip = taskbarTopDip + (taskbarHeightDip - window.Height) / 2.0;
+
+            var trayHandle = FindWindowEx(taskbarHandle, IntPtr.Zero, "TrayNotifyWnd", null);
+            if (trayHandle != IntPtr.Zero && GetWindowRect(trayHandle, out var trayRect))
+            {
+                trayLeftDip = trayRect.Left / dpiScale;
+            }
+            else
+            {
+                trayLeftDip = taskbarRightDip - 200;
+            }
+        }
+        else
+        {
+            topInDip = workArea.Bottom - window.Height - 4;
+            trayLeftDip = workArea.Right - 200;
+            taskbarLeftDip = workArea.Left;
+            taskbarRightDip = workArea.Right;
+        }
+
+        double leftInDip = position switch
+        {
+            Position.Left => taskbarLeftDip + 60,
+            Position.Center => taskbarLeftDip + ((taskbarRightDip - taskbarLeftDip) - window.Width) / 2.0,
+            Position.Right => trayLeftDip - window.Width - 8,
+            _ => trayLeftDip - window.Width - 8
         };
 
-        window.Left = left / dpiScale;
-        window.Top = (taskbarTop + (taskbarHeight - windowHeight) / 2.0) / dpiScale;
-    }
+        if (leftInDip < 0) leftInDip = 8;
+        if (leftInDip + window.Width > primaryWidth) leftInDip = primaryWidth - window.Width - 8;
+        if (topInDip < 0) topInDip = 4;
+        if (topInDip + window.Height > primaryHeight) topInDip = primaryHeight - window.Height - 4;
 
-    private static int GetTrayLeft(IntPtr taskbarHandle, RECT taskbarRect)
-    {
-        var trayHandle = FindWindowEx(taskbarHandle, IntPtr.Zero, "TrayNotifyWnd", null);
-        if (trayHandle != IntPtr.Zero)
-        {
-            GetWindowRect(trayHandle, out var trayRect);
-            return trayRect.Left;
-        }
-        return taskbarRect.Right - 300;
+        window.Left = leftInDip;
+        window.Top = topInDip;
     }
 
     public static void PositionNearClock(Window window) => PositionOnTaskbar(window, Position.Right);
@@ -76,10 +96,9 @@ public static class TaskbarHelper
     {
         const int GWL_EXSTYLE = -20;
         const int WS_EX_TOOLWINDOW = 0x00000080;
-        const int WS_EX_NOACTIVATE = 0x08000000;
 
         var hwnd = new WindowInteropHelper(window).Handle;
         var exStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
-        SetWindowLong(hwnd, GWL_EXSTYLE, exStyle | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE);
+        SetWindowLong(hwnd, GWL_EXSTYLE, exStyle | WS_EX_TOOLWINDOW);
     }
 }

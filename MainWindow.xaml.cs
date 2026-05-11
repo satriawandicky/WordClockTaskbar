@@ -17,16 +17,44 @@ public partial class MainWindow : Window
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
         TaskbarHelper.SetToolWindowStyle(this);
-        TaskbarHelper.PositionNearClock(this);
-
-        var config = WordClockTaskbar.Models.TimezoneConfig.Load();
-        Topmost = config.IsAlwaysOnTop;
+        EnsureVisible();
 
         Closing += (s, e) =>
         {
             e.Cancel = true;
             Hide();
         };
+    }
+
+    public void EnsureVisible()
+    {
+        var config = WordClockTaskbar.Models.TimezoneConfig.Load();
+
+        TaskbarHelper.PositionNearClock(this);
+        ClampToScreen();
+
+        WindowState = WindowState.Normal;
+        Visibility = Visibility.Visible;
+        Show();
+
+        Topmost = false;
+        Topmost = true;
+        Topmost = config.IsAlwaysOnTop;
+    }
+
+    private void ClampToScreen()
+    {
+        var workArea = SystemParameters.WorkArea;
+        var virtualLeft = SystemParameters.VirtualScreenLeft;
+        var virtualTop = SystemParameters.VirtualScreenTop;
+        var virtualRight = virtualLeft + SystemParameters.VirtualScreenWidth;
+        var virtualBottom = virtualTop + SystemParameters.VirtualScreenHeight;
+
+        if (double.IsNaN(Left) || Left < virtualLeft || Left + Width > virtualRight)
+            Left = workArea.Right - Width - 16;
+
+        if (double.IsNaN(Top) || Top < virtualTop || Top + Height > virtualBottom)
+            Top = workArea.Bottom - Height - 4;
     }
 
     private void ApplyTheme()
