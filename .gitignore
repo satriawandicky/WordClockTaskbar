@@ -18,9 +18,12 @@ mono_crash.*
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
-[Rr]eleases/
 x64/
 x86/
+
+# Allow releases folder (for distributable executables)
+!releases/
+!releases/**
 [Ww][In][32]/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/

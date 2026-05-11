@@ -11,6 +11,7 @@ public class SettingsViewModel : INotifyPropertyChanged
     private string _backgroundColor = "";
     private string _textColor = "";
     private string _labelColor = "";
+    private bool _isAlwaysOnTop = true;
 
     public ObservableCollection<TimezoneEntry> Timezones { get; } = new();
     public List<string> AvailableTimezoneIds { get; }
@@ -18,6 +19,7 @@ public class SettingsViewModel : INotifyPropertyChanged
     public string BackgroundColor { get => _backgroundColor; set { _backgroundColor = value; OnPropertyChanged(); } }
     public string TextColor { get => _textColor; set { _textColor = value; OnPropertyChanged(); } }
     public string LabelColor { get => _labelColor; set { _labelColor = value; OnPropertyChanged(); } }
+    public bool IsAlwaysOnTop { get => _isAlwaysOnTop; set { _isAlwaysOnTop = value; OnPropertyChanged(); } }
 
     public SettingsViewModel()
     {
@@ -40,6 +42,7 @@ public class SettingsViewModel : INotifyPropertyChanged
         BackgroundColor = _config.Theme.BackgroundColor;
         TextColor = _config.Theme.TextColor;
         LabelColor = _config.Theme.LabelColor;
+        IsAlwaysOnTop = _config.IsAlwaysOnTop;
     }
 
     public void AddTimezone(string label, string timezoneId)
@@ -94,6 +97,7 @@ public class SettingsViewModel : INotifyPropertyChanged
         _config.Theme.BackgroundColor = BackgroundColor;
         _config.Theme.TextColor = TextColor;
         _config.Theme.LabelColor = LabelColor;
+        _config.IsAlwaysOnTop = IsAlwaysOnTop;
         _config.Save();
     }
 

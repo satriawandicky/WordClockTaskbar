@@ -52,6 +52,12 @@ public partial class SettingsWindow : Window
     private void SaveButton_Click(object sender, RoutedEventArgs e)
     {
         ViewModel.SaveConfig();
+
+        if (System.Windows.Application.Current.MainWindow is MainWindow mw)
+        {
+            mw.Topmost = ViewModel.IsAlwaysOnTop;
+        }
+
         DialogResult = true;
         Close();
     }

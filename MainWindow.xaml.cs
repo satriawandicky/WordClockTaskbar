@@ -18,6 +18,10 @@ public partial class MainWindow : Window
     {
         TaskbarHelper.SetToolWindowStyle(this);
         TaskbarHelper.PositionNearClock(this);
+
+        var config = WordClockTaskbar.Models.TimezoneConfig.Load();
+        Topmost = config.IsAlwaysOnTop;
+
         Closing += (s, e) =>
         {
             e.Cancel = true;

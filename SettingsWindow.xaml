@@ -15,6 +15,7 @@
     <Grid Margin="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -67,8 +68,13 @@
             </Grid>
         </GroupBox>
 
+        <!-- Window Options -->
+        <GroupBox Header="Window Options" Padding="12" Margin="0,0,0,12" Grid.Row="1">
+            <CheckBox Content="Always on Top" IsChecked="{Binding IsAlwaysOnTop, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"/>
+        </GroupBox>
+
         <!-- Theme Settings -->
-        <GroupBox Header="Theme Colors" Padding="12" Margin="0,0,0,12" Grid.Row="1">
+        <GroupBox Header="Theme Colors" Padding="12" Margin="0,0,0,12" Grid.Row="2">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -92,7 +98,7 @@
         </GroupBox>
 
         <!-- Footer Buttons -->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Cancel" Padding="20,8" IsCancel="True" Width="100" Margin="0,0,8,0"/>
             <Button Content="Save" Padding="20,8" Click="SaveButton_Click" Width="100" IsDefault="True"/>
         </StackPanel>

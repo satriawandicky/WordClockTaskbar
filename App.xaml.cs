@@ -82,6 +82,21 @@ public partial class App : Application
 
         menu.Items.Add(new System.Windows.Forms.ToolStripSeparator());
 
+        var alwaysOnTopItem = new System.Windows.Forms.ToolStripMenuItem("Always on Top");
+        var config = WordClockTaskbar.Models.TimezoneConfig.Load();
+        alwaysOnTopItem.Checked = config.IsAlwaysOnTop;
+        alwaysOnTopItem.Click += (_, _) =>
+        {
+            config.IsAlwaysOnTop = !config.IsAlwaysOnTop;
+            config.Save();
+            alwaysOnTopItem.Checked = config.IsAlwaysOnTop;
+            if (MainWindow is MainWindow mw)
+                mw.Topmost = config.IsAlwaysOnTop;
+        };
+        menu.Items.Add(alwaysOnTopItem);
+
+        menu.Items.Add(new System.Windows.Forms.ToolStripSeparator());
+
         menu.Items.Add("Settings", null, (_, _) =>
         {
             var settingsWindow = new SettingsWindow();
@@ -103,6 +118,18 @@ public partial class App : Application
         });
 
         _notifyIcon.ContextMenuStrip = menu;
+
+        _notifyIcon.MouseClick += (_, args) =>
+        {
+            if (args.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                if (MainWindow is MainWindow mw)
+                {
+                    mw.Show();
+                    mw.Activate();
+                }
+            }
+        };
     }
 
     private static Icon CreateClockIcon()
