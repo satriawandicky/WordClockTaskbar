@@ -13,7 +13,7 @@ public partial class MainWindow : Window
     private const double WindowPaddingWidth = 28;
     private const double TimezoneItemWidth = 86;
     private const double MinClockWidth = 300;
-    private const double MaxClockWidth = 488;
+    private const double MaxClockWidth = 500;
 
     private readonly DispatcherTimer _topmostWatchdog;
     private bool _isAlwaysOnTop = true;
@@ -23,10 +23,11 @@ public partial class MainWindow : Window
         InitializeComponent();
         ApplyTheme();
 
-        _topmostWatchdog = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
+        _topmostWatchdog = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
         _topmostWatchdog.Tick += (_, _) => ReassertTopmost();
 
         Loaded += OnLoaded;
+        IsVisibleChanged += (_, _) => UpdateTopmostWatchdog();
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
@@ -34,7 +35,6 @@ public partial class MainWindow : Window
         TaskbarHelper.SetToolWindowStyle(this);
         _isAlwaysOnTop = TimezoneConfig.Load().IsAlwaysOnTop;
         EnsureVisible();
-        _topmostWatchdog.Start();
 
         Closing += (s, e) =>
         {
@@ -87,6 +87,7 @@ public partial class MainWindow : Window
     {
         Topmost = enabled;
         TaskbarHelper.SetTopmost(this, enabled);
+        UpdateTopmostWatchdog();
     }
 
     private void ReassertTopmost()
@@ -96,6 +97,19 @@ public partial class MainWindow : Window
 
         Topmost = true;
         TaskbarHelper.SetTopmost(this, true);
+    }
+
+    private void UpdateTopmostWatchdog()
+    {
+        if (_isAlwaysOnTop && IsVisible)
+        {
+            if (!_topmostWatchdog.IsEnabled)
+                _topmostWatchdog.Start();
+        }
+        else
+        {
+            _topmostWatchdog.Stop();
+        }
     }
 
     private void ClampToScreen()
@@ -117,10 +131,23 @@ public partial class MainWindow : Window
     {
         var config = TimezoneConfig.Load();
         var bgColor = ThemeHelper.HexToColor(config.Theme.BackgroundColor);
-        RootBorder.Background = new SolidColorBrush(bgColor);
+        var textColor = ThemeHelper.HexToColor(config.Theme.TextColor);
+        var labelColor = ThemeHelper.HexToColor(config.Theme.LabelColor);
+        var borderColor = System.Windows.Media.Color.FromArgb(44, labelColor.R, labelColor.G, labelColor.B);
 
-        Resources["ForegroundColor"] = new SolidColorBrush(ThemeHelper.HexToColor(config.Theme.TextColor));
-        Resources["LabelColor"] = new SolidColorBrush(ThemeHelper.HexToColor(config.Theme.LabelColor));
+        RootBorder.Background = CreateBrush(bgColor);
+        Resources["ForegroundColor"] = CreateBrush(textColor);
+        Resources["LabelColor"] = CreateBrush(labelColor);
+        Resources["ChromeBorderColor"] = CreateBrush(borderColor);
+    }
+
+    private static SolidColorBrush CreateBrush(System.Windows.Media.Color color)
+    {
+        var brush = new SolidColorBrush(color);
+        if (brush.CanFreeze)
+            brush.Freeze();
+
+        return brush;
     }
 
     protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

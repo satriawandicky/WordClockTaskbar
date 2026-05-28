@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:WordClockTaskbar.ViewModels"
         Title="WorldClock"
-        Width="448" Height="32"
+        Width="458" Height="32"
         MinWidth="300"
-        MaxWidth="488"
+        MaxWidth="500"
         WindowStyle="None"
         AllowsTransparency="True"
         Topmost="True"
@@ -19,42 +19,48 @@
     </Window.DataContext>
 
     <Border x:Name="RootBorder"
-            CornerRadius="4"
-            Padding="8,0">
+            CornerRadius="6"
+            BorderBrush="{DynamicResource ChromeBorderColor}"
+            BorderThickness="1"
+            Padding="10,0">
         <ItemsControl ItemsSource="{Binding Timezones}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center"/>
+                    <UniformGrid Rows="1"
+                                 VerticalAlignment="Center"
+                                 HorizontalAlignment="Stretch"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid Width="84"
-                          Height="24"
+                    <Grid Height="24"
+                          MinWidth="72"
                           VerticalAlignment="Center"
-                          Margin="0,0,2,0"
+                          HorizontalAlignment="Center"
                           ToolTip="{Binding GMTOffset}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="34"/>
-                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{Binding Label}"
                                    Foreground="{DynamicResource LabelColor}"
-                                   FontSize="10"
-                                   Opacity="0.6"
+                                   FontFamily="Segoe UI Variable Text, Segoe UI"
+                                   FontSize="9"
+                                   FontWeight="SemiBold"
+                                   Opacity="0.62"
                                    VerticalAlignment="Center"
+                                   HorizontalAlignment="Right"
                                    TextTrimming="CharacterEllipsis"
-                                   Margin="0,0,3,0"/>
+                                   MaxWidth="24"
+                                   Margin="0,0,7,0"/>
                         <TextBlock Grid.Column="1"
                                    Text="{Binding Time}"
                                    Foreground="{DynamicResource ForegroundColor}"
-                                   FontFamily="Segoe UI Variable"
+                                   FontFamily="Segoe UI Variable Text, Segoe UI"
                                    FontSize="12"
-                                   FontWeight="SemiBold"
+                                   FontWeight="Bold"
                                    VerticalAlignment="Center"
-                                   HorizontalAlignment="Right"/>
+                                   HorizontalAlignment="Left"/>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
