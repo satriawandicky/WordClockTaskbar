@@ -2,6 +2,12 @@
 
 A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar with customizable colors and themes.
 
+[![Latest Release](https://img.shields.io/github/v/release/satriawandicky/WordClockTaskbar?label=latest%20release)](https://github.com/satriawandicky/WordClockTaskbar/releases/latest)
+[![Download Windows x64](https://img.shields.io/badge/download-Windows%20x64-blue)](https://github.com/satriawandicky/WordClockTaskbar/releases/download/v1.0.2/WordClockTaskbar-v1.0.2-win-x64.exe)
+
+**Latest download:** [WordClockTaskbar-v1.0.2-win-x64.exe](https://github.com/satriawandicky/WordClockTaskbar/releases/download/v1.0.2/WordClockTaskbar-v1.0.2-win-x64.exe)<br>
+**Release page:** [GitHub Releases](https://github.com/satriawandicky/WordClockTaskbar/releases/latest)
+
 ## 📋 Table of Contents
 - [What is WordClock?](#what-is-wordclock)
 - [Key Features](#key-features)
@@ -21,7 +27,7 @@ A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar
 - ✅ Check local times without opening other apps
 - ✅ Customizable to match your color preferences
 
-**Size:** Frameless, compact bar (~420x32px)  
+**Size:** Frameless, compact bar (~300-488x32px)<br>
 **Memory:** Minimal (~30-50 MB)  
 **OS:** Windows 11 (tested on latest builds)
 
@@ -32,7 +38,7 @@ A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar
 ### 1. **Multi-Timezone Display**
    - Displays up to **5 timezones simultaneously**
    - **24-hour** format (HH:mm)
-   - Shows **GMT offset** (e.g., `GMT+2`, `GMT+5:30`, `GMT-5`)
+   - Shows compact labels and time; GMT offset is available on hover
    - Updates in real-time every second
 
 ### 2. **Customizable Timezones**
@@ -58,6 +64,7 @@ A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar
 
 ### 5. **Window Management**
    - **Frameless, always-on-top** window
+   - Reasserts topmost state when another window or overlay covers it
    - **Drag-to-move** functionality
    - **Hidden from Alt+Tab** (WS_EX_TOOLWINDOW)
    - **Prevents accidental close** (hides instead)
@@ -68,18 +75,19 @@ A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar
 
 ### **Option 1: Download & Run (Recommended)**
 
-1. **Download executable:**
-   ```
-   C:\Users\[YourUsername]\OneDrive\Documents\Nimbalyst\WordClockTaskbar\bin\Release\net8.0-windows\win-x64\publish\WordClockTaskbar.exe
-   ```
+1. **Download the latest Windows x64 executable:**
+   [WordClockTaskbar-v1.0.2-win-x64.exe](https://github.com/satriawandicky/WordClockTaskbar/releases/download/v1.0.2/WordClockTaskbar-v1.0.2-win-x64.exe)
 
 2. **Run (double-click):**
    - The app will run immediately in the system tray
    - No installation or administrator rights required
+   - The release build is self-contained, so .NET does not need to be installed separately
 
 3. **(Optional) Move to a permanent location:**
    - Copy `WordClockTaskbar.exe` to your Desktop or preferred folder
    - Double-click anytime to launch
+
+All public downloads are available from the [latest GitHub Release](https://github.com/satriawandicky/WordClockTaskbar/releases/latest).
 
 ### **Option 2: Auto-Start with Windows**
 
@@ -100,7 +108,7 @@ dotnet build
 dotnet run
 
 # Publish (create standalone exe)
-dotnet publish -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true
+dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true
 ```
 
 **Requirements:** .NET 8 SDK
@@ -112,12 +120,12 @@ dotnet publish -c Release -r win-x64 --self-contained false -p:PublishSingleFile
 ### **Default View**
 ```
 ┌─────────────────────────────────────────┐
-│ US 14:30 GMT-5 | UK 19:30 GMT+0 | IN 00:00 GMT+5:30 │
+│ US 14:30   UK 19:30   IN 00:00         │
 └─────────────────────────────────────────┘
 ```
 - **Label:** Timezone identifier (US, UK, IN, etc.)
 - **Time:** HH:mm (24-hour format)
-- **GMT:** Offset from GMT (e.g., +5:30, -5, +2)
+- **GMT:** Offset from GMT is shown in the hover tooltip
 
 ### **Interaction:**
 
@@ -242,7 +250,7 @@ C:\Users\[YourUsername]\AppData\Roaming\WordClockTaskbar\wordclock-config.json
 
 **Clock on taskbar:**
 ```
-[System icons] [WordClock: US 14:30 GMT-5 | UK 19:30 GMT+0 | IN 00:00 GMT+5:30] [System clock]
+[System icons] [WordClock: US 14:30   UK 19:30   IN 00:00] [System clock]
 ```
 
 **Settings Window:**
