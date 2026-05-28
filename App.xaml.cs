@@ -80,15 +80,16 @@ public partial class App : Application
         menu.Items.Add(new System.Windows.Forms.ToolStripSeparator());
 
         var alwaysOnTopItem = new System.Windows.Forms.ToolStripMenuItem("Always on Top");
-        var config = WordClockTaskbar.Models.TimezoneConfig.Load();
-        alwaysOnTopItem.Checked = config.IsAlwaysOnTop;
+        alwaysOnTopItem.Checked = WordClockTaskbar.Models.TimezoneConfig.Load().IsAlwaysOnTop;
         alwaysOnTopItem.Click += (_, _) =>
         {
+            var config = WordClockTaskbar.Models.TimezoneConfig.Load();
             config.IsAlwaysOnTop = !config.IsAlwaysOnTop;
             config.Save();
+
             alwaysOnTopItem.Checked = config.IsAlwaysOnTop;
             if (MainWindow is MainWindow mw)
-                mw.Topmost = config.IsAlwaysOnTop;
+                mw.SetAlwaysOnTop(config.IsAlwaysOnTop);
         };
         menu.Items.Add(alwaysOnTopItem);
 
@@ -101,7 +102,12 @@ public partial class App : Application
             {
                 if (MainWindow is MainWindow mw && mw.DataContext is ViewModels.ClockViewModel vm)
                 {
+                    var config = WordClockTaskbar.Models.TimezoneConfig.Load();
+                    alwaysOnTopItem.Checked = config.IsAlwaysOnTop;
+
                     vm.ReloadConfig();
+                    mw.SetAlwaysOnTop(config.IsAlwaysOnTop);
+                    mw.RefreshLayoutAndPosition();
                 }
             }
         });

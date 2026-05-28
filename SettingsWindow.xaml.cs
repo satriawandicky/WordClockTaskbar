@@ -55,7 +55,7 @@ public partial class SettingsWindow : Window
 
         if (System.Windows.Application.Current.MainWindow is MainWindow mw)
         {
-            mw.Topmost = ViewModel.IsAlwaysOnTop;
+            mw.SetAlwaysOnTop(ViewModel.IsAlwaysOnTop);
         }
 
         DialogResult = true;
