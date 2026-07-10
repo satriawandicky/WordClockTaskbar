@@ -56,8 +56,10 @@
                                    Margin="0,0,6,0"/>
                         <TextBlock Grid.Column="1"
                                    Text="{Binding Emoji}"
-                                   FontFamily="Segoe UI Emoji"
-                                   FontSize="11"
+                                   Foreground="{Binding EmojiBrush}"
+                                   FontFamily="Segoe UI Symbol, Segoe UI"
+                                   FontSize="14"
+                                   FontWeight="Bold"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Center"
                                    Margin="0,0,5,0"/>

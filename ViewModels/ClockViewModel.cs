@@ -2,7 +2,11 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Threading;
+using WordClockTaskbar.Helpers;
 using WordClockTaskbar.Models;
+using Brush = System.Windows.Media.Brush;
+using Brushes = System.Windows.Media.Brushes;
+using SolidColorBrush = System.Windows.Media.SolidColorBrush;
 
 namespace WordClockTaskbar.ViewModels;
 
@@ -11,6 +15,8 @@ public class TimezoneDisplayModel : INotifyPropertyChanged
     private string _label = "";
     private string _time = "";
     private string _emoji = "";
+    private Brush _emojiBrush = Brushes.Transparent;
+    private string _lastColorHex = "";
     private string _gmtOffset = "";
     private string _timezoneId = "";
     private TimezoneClockModel? _clockModel;
@@ -18,6 +24,7 @@ public class TimezoneDisplayModel : INotifyPropertyChanged
     public string Label { get => _label; set { _label = value; OnPropertyChanged(); } }
     public string Time { get => _time; set { _time = value; OnPropertyChanged(); } }
     public string Emoji { get => _emoji; set { _emoji = value; OnPropertyChanged(); } }
+    public Brush EmojiBrush { get => _emojiBrush; set { _emojiBrush = value; OnPropertyChanged(); } }
     public string GMTOffset { get => _gmtOffset; set { _gmtOffset = value; OnPropertyChanged(); } }
     public string TimezoneId { get => _timezoneId; set { _timezoneId = value; OnPropertyChanged(); } }
 
@@ -32,7 +39,18 @@ public class TimezoneDisplayModel : INotifyPropertyChanged
     public void UpdateTime()
     {
         Time = _clockModel?.GetCurrentTime() ?? "";
-        Emoji = _clockModel?.GetTimeOfDayEmoji() ?? "";
+        if (_clockModel is not null)
+        {
+            var (glyph, colorHex) = _clockModel.GetTimeOfDay();
+            Emoji = glyph;
+            if (_lastColorHex != colorHex)
+            {
+                var brush = new SolidColorBrush(ThemeHelper.HexToColor(colorHex));
+                brush.Freeze();
+                EmojiBrush = brush;
+                _lastColorHex = colorHex;
+            }
+        }
         GMTOffset = _clockModel?.GetGMTOffset() ?? "";
     }
 
