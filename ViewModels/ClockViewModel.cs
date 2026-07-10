@@ -10,12 +10,14 @@ public class TimezoneDisplayModel : INotifyPropertyChanged
 {
     private string _label = "";
     private string _time = "";
+    private string _emoji = "";
     private string _gmtOffset = "";
     private string _timezoneId = "";
     private TimezoneClockModel? _clockModel;
 
     public string Label { get => _label; set { _label = value; OnPropertyChanged(); } }
     public string Time { get => _time; set { _time = value; OnPropertyChanged(); } }
+    public string Emoji { get => _emoji; set { _emoji = value; OnPropertyChanged(); } }
     public string GMTOffset { get => _gmtOffset; set { _gmtOffset = value; OnPropertyChanged(); } }
     public string TimezoneId { get => _timezoneId; set { _timezoneId = value; OnPropertyChanged(); } }
 
@@ -30,6 +32,7 @@ public class TimezoneDisplayModel : INotifyPropertyChanged
     public void UpdateTime()
     {
         Time = _clockModel?.GetCurrentTime() ?? "";
+        Emoji = _clockModel?.GetTimeOfDayEmoji() ?? "";
         GMTOffset = _clockModel?.GetGMTOffset() ?? "";
     }
 

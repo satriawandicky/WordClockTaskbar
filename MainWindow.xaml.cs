@@ -11,9 +11,9 @@ namespace WordClockTaskbar;
 public partial class MainWindow : Window
 {
     private const double WindowPaddingWidth = 28;
-    private const double TimezoneItemWidth = 86;
+    private const double TimezoneItemWidth = 104;
     private const double MinClockWidth = 300;
-    private const double MaxClockWidth = 500;
+    private const double MaxClockWidth = 560;
 
     private readonly DispatcherTimer _topmostWatchdog;
     private bool _isAlwaysOnTop = true;

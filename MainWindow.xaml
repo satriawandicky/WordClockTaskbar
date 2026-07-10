@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:WordClockTaskbar.ViewModels"
         Title="WorldClock"
-        Width="458" Height="32"
+        Width="548" Height="32"
         MinWidth="300"
-        MaxWidth="500"
+        MaxWidth="580"
         WindowStyle="None"
         AllowsTransparency="True"
         Topmost="True"
@@ -34,11 +34,12 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid Height="24"
-                          MinWidth="72"
+                          MinWidth="88"
                           VerticalAlignment="Center"
                           HorizontalAlignment="Center"
                           ToolTip="{Binding GMTOffset}">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
@@ -52,8 +53,15 @@
                                    HorizontalAlignment="Right"
                                    TextTrimming="CharacterEllipsis"
                                    MaxWidth="24"
-                                   Margin="0,0,7,0"/>
+                                   Margin="0,0,6,0"/>
                         <TextBlock Grid.Column="1"
+                                   Text="{Binding Emoji}"
+                                   FontFamily="Segoe UI Emoji"
+                                   FontSize="11"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,5,0"/>
+                        <TextBlock Grid.Column="2"
                                    Text="{Binding Time}"
                                    Foreground="{DynamicResource ForegroundColor}"
                                    FontFamily="Segoe UI Variable Text, Segoe UI"

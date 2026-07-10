@@ -17,6 +17,21 @@ public class TimezoneClockModel
         return now.ToString("HH:mm");
     }
 
+    // Time-of-day emoji based on the local hour in this timezone.
+    // pagi/morning 05-10 -> sunrise, siang/day 11-15 -> sun,
+    // sore/evening 16-18 -> sunset, malam/night 19-04 -> moon.
+    public string GetTimeOfDayEmoji()
+    {
+        var now = TimeZoneInfo.ConvertTime(DateTimeOffset.UtcNow, TimezoneInfo);
+        return now.Hour switch
+        {
+            >= 5 and < 11 => "\U0001F305",   // 🌅 morning / pagi
+            >= 11 and < 16 => "☀️", // sun - day / siang
+            >= 16 and < 19 => "\U0001F307",  // 🌇 evening / sore
+            _ => "\U0001F319"                // 🌙 night / malam
+        };
+    }
+
     public string GetGMTOffset()
     {
         var offset = TimezoneInfo.GetUtcOffset(DateTime.Now);
