@@ -3,9 +3,9 @@
 A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar with customizable colors and themes.
 
 [![Latest Release](https://img.shields.io/github/v/release/satriawandicky/WordClockTaskbar?label=latest%20release)](https://github.com/satriawandicky/WordClockTaskbar/releases/latest)
-[![Download Windows x64](https://img.shields.io/badge/download-Windows%20x64-blue)](https://github.com/satriawandicky/WordClockTaskbar/releases/download/v1.0.5/WordClockTaskbar-v1.0.5-win-x64.exe)
+[![Download Windows x64](https://img.shields.io/badge/download-Windows%20x64-blue)](https://github.com/satriawandicky/WordClockTaskbar/releases/download/v1.0.6/WordClockTaskbar-v1.0.6-win-x64.exe)
 
-**Latest download:** [WordClockTaskbar-v1.0.5-win-x64.exe](https://github.com/satriawandicky/WordClockTaskbar/releases/download/v1.0.5/WordClockTaskbar-v1.0.5-win-x64.exe)<br>
+**Latest download:** [WordClockTaskbar-v1.0.6-win-x64.exe](https://github.com/satriawandicky/WordClockTaskbar/releases/download/v1.0.6/WordClockTaskbar-v1.0.6-win-x64.exe)<br>
 **Release page:** [GitHub Releases](https://github.com/satriawandicky/WordClockTaskbar/releases/latest)
 
 ## 📋 Table of Contents
@@ -37,8 +37,10 @@ A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar
 
 ### 1. **Multi-Timezone Display**
    - Displays up to **5 timezones simultaneously**
+   - **Country flag** per timezone (auto-detected from the Windows timezone; falls back to the text label)
+   - **Day/night indicator** — a colored icon per region: ☀ morning (amber), ☀ midday (gold), ☀ evening (orange), ☾ night (blue)
    - **24-hour** format (HH:mm)
-   - Shows compact labels and time; GMT offset is available on hover
+   - GMT offset is available on hover
    - Updates in real-time every second
 
 ### 2. **Customizable Timezones**
@@ -69,6 +71,12 @@ A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar
    - **Hidden from Alt+Tab** (WS_EX_TOOLWINDOW)
    - **Prevents accidental close** (hides instead)
 
+### 6. **Automatic Updates**
+   - Checks GitHub for a newer release on launch (silently)
+   - Shows a tray balloon + a **"Update to vX.Y.Z"** menu item when one is available
+   - **One-click update**: downloads the new build, replaces the app, and relaunches — no manual reinstall
+   - Manual **"Check for Updates"** available anytime in the tray menu
+
 ---
 
 ## 📥 Installation
@@ -76,7 +84,7 @@ A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar
 ### **Option 1: Download & Run (Recommended)**
 
 1. **Download the latest Windows x64 executable:**
-   [WordClockTaskbar-v1.0.5-win-x64.exe](https://github.com/satriawandicky/WordClockTaskbar/releases/download/v1.0.5/WordClockTaskbar-v1.0.5-win-x64.exe)
+   [WordClockTaskbar-v1.0.6-win-x64.exe](https://github.com/satriawandicky/WordClockTaskbar/releases/download/v1.0.6/WordClockTaskbar-v1.0.6-win-x64.exe)
 
 2. **Run (double-click):**
    - The app will run immediately in the system tray

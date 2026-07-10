@@ -17,11 +17,16 @@ namespace WordClockTaskbar;
 public partial class App : Application
 {
     private System.Windows.Forms.NotifyIcon? _notifyIcon;
+    private System.Windows.Forms.ToolStripMenuItem? _updateItem;
+    private UpdateInfo? _pendingUpdate;
 
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
         CreateTrayIcon();
+        // Silently check for a newer release on launch; surfaces a balloon + a
+        // one-click "Update to vX" tray item when one is available.
+        _ = CheckForUpdatesAsync(silent: true);
     }
 
     private void CreateTrayIcon()
@@ -114,6 +119,18 @@ public partial class App : Application
 
         menu.Items.Add(new System.Windows.Forms.ToolStripSeparator());
 
+        _updateItem = new System.Windows.Forms.ToolStripMenuItem("Check for Updates");
+        _updateItem.Click += async (_, _) =>
+        {
+            if (_pendingUpdate is not null)
+                await PromptAndApplyAsync(_pendingUpdate);
+            else
+                await CheckForUpdatesAsync(silent: false);
+        };
+        menu.Items.Add(_updateItem);
+
+        menu.Items.Add(new System.Windows.Forms.ToolStripSeparator());
+
         menu.Items.Add("Exit", null, (_, _) =>
         {
             _notifyIcon?.Dispose();
@@ -121,6 +138,12 @@ public partial class App : Application
         });
 
         _notifyIcon.ContextMenuStrip = menu;
+
+        _notifyIcon.BalloonTipClicked += async (_, _) =>
+        {
+            if (_pendingUpdate is not null)
+                await PromptAndApplyAsync(_pendingUpdate);
+        };
 
         _notifyIcon.MouseClick += (_, args) =>
         {
@@ -132,6 +155,86 @@ public partial class App : Application
                 }
             }
         };
+    }
+
+    private async Task CheckForUpdatesAsync(bool silent)
+    {
+        if (_updateItem is not null && !silent)
+            _updateItem.Text = "Checking for updates…";
+
+        var info = await UpdateChecker.CheckAsync();
+
+        if (info is null)
+        {
+            _pendingUpdate = null;
+            if (_updateItem is not null)
+                _updateItem.Text = "Check for Updates";
+
+            if (!silent)
+                System.Windows.MessageBox.Show(
+                    $"You're on the latest version (v{UpdateChecker.CurrentVersion.ToString(3)}).",
+                    "WordClock Taskbar", MessageBoxButton.OK, MessageBoxImage.Information);
+            return;
+        }
+
+        _pendingUpdate = info;
+        if (_updateItem is not null)
+            _updateItem.Text = $"Update to {info.Tag}";
+
+        if (silent)
+        {
+            if (_notifyIcon is not null)
+            {
+                _notifyIcon.BalloonTipTitle = "Update available";
+                _notifyIcon.BalloonTipText = $"WordClock Taskbar {info.Tag} is available. Click to update.";
+                _notifyIcon.ShowBalloonTip(8000);
+            }
+        }
+        else
+        {
+            await PromptAndApplyAsync(info);
+        }
+    }
+
+    private async Task PromptAndApplyAsync(UpdateInfo info)
+    {
+        var result = System.Windows.MessageBox.Show(
+            $"WordClock Taskbar {info.Tag} is available (you have v{UpdateChecker.CurrentVersion.ToString(3)}).\n\n" +
+            "Download and update now? The app will close and reopen automatically.",
+            "Update available", MessageBoxButton.OKCancel, MessageBoxImage.Information);
+
+        if (result == MessageBoxResult.OK)
+            await ApplyUpdateAsync(info);
+    }
+
+    private async Task ApplyUpdateAsync(UpdateInfo info)
+    {
+        if (_updateItem is not null)
+        {
+            _updateItem.Text = "Downloading update…";
+            _updateItem.Enabled = false;
+        }
+
+        var ok = await UpdateChecker.DownloadAndApplyAsync(info);
+
+        if (ok)
+        {
+            // Swap script is waiting for this process to exit before replacing the exe.
+            _notifyIcon?.Dispose();
+            Shutdown();
+        }
+        else
+        {
+            if (_updateItem is not null)
+            {
+                _updateItem.Text = $"Update to {info.Tag}";
+                _updateItem.Enabled = true;
+            }
+
+            System.Windows.MessageBox.Show(
+                "Update failed. Check your connection or download the latest release manually from GitHub.",
+                "Update", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
     }
 
     private static Icon CreateClockIcon()
