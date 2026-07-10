@@ -1,7 +1,7 @@
 ; WordClock Taskbar - Inno Setup Installer Script
 
 #define MyAppName "WordClock Taskbar"
-#define MyAppVersion "1.0.1"
+#define MyAppVersion "1.0.4"
 #define MyAppPublisher "WordClock"
 #define MyAppExeName "WordClockTaskbar.exe"
 #define MyAppURL "https://github.com/wordclock"
