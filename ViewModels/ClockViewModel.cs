@@ -5,9 +5,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using WordClockTaskbar.Helpers;
 using WordClockTaskbar.Models;
-using Brush = System.Windows.Media.Brush;
-using Brushes = System.Windows.Media.Brushes;
-using SolidColorBrush = System.Windows.Media.SolidColorBrush;
 using ImageSource = System.Windows.Media.ImageSource;
 
 namespace WordClockTaskbar.ViewModels;
@@ -16,9 +13,7 @@ public class TimezoneDisplayModel : INotifyPropertyChanged
 {
     private string _label = "";
     private string _time = "";
-    private string _emoji = "";
-    private Brush _emojiBrush = Brushes.Transparent;
-    private string _lastColorHex = "";
+    private string _phase = "";
     private string _gmtOffset = "";
     private string _timezoneId = "";
     private ImageSource? _flag;
@@ -26,8 +21,8 @@ public class TimezoneDisplayModel : INotifyPropertyChanged
 
     public string Label { get => _label; set { _label = value; OnPropertyChanged(); } }
     public string Time { get => _time; set { _time = value; OnPropertyChanged(); } }
-    public string Emoji { get => _emoji; set { _emoji = value; OnPropertyChanged(); } }
-    public Brush EmojiBrush { get => _emojiBrush; set { _emojiBrush = value; OnPropertyChanged(); } }
+    // Time-of-day phase key ("sunrise"/"noon"/"sunset"/"night"); drives the icon in XAML.
+    public string Phase { get => _phase; set { _phase = value; OnPropertyChanged(); } }
     public string GMTOffset { get => _gmtOffset; set { _gmtOffset = value; OnPropertyChanged(); } }
     public string TimezoneId { get => _timezoneId; set { _timezoneId = value; OnPropertyChanged(); } }
 
@@ -69,18 +64,7 @@ public class TimezoneDisplayModel : INotifyPropertyChanged
     public void UpdateTime()
     {
         Time = _clockModel?.GetCurrentTime() ?? "";
-        if (_clockModel is not null)
-        {
-            var (glyph, colorHex) = _clockModel.GetTimeOfDay();
-            Emoji = glyph;
-            if (_lastColorHex != colorHex)
-            {
-                var brush = new SolidColorBrush(ThemeHelper.HexToColor(colorHex));
-                brush.Freeze();
-                EmojiBrush = brush;
-                _lastColorHex = colorHex;
-            }
-        }
+        Phase = _clockModel?.GetTimeOfDayPhase() ?? "";
         GMTOffset = _clockModel?.GetGMTOffset() ?? "";
     }
 

@@ -17,23 +17,19 @@ public class TimezoneClockModel
         return now.ToString("HH:mm");
     }
 
-    // Time-of-day indicator based on the local hour in this timezone.
-    // WPF TextBlock renders emoji fonts monochrome (no COLR/CPAL), so instead of
-    // color emoji we return a crisp text-presentation symbol plus an explicit
-    // phase color; MainWindow paints the glyph in that color for visibility.
-    //   pagi/morning 05-10  -> sun, warm amber
-    //   siang/day    11-15  -> sun, bright gold
-    //   sore/evening 16-18  -> sun, sunset orange
-    //   malam/night  19-04  -> crescent moon, cool blue
-    public (string glyph, string colorHex) GetTimeOfDay()
+    // Time-of-day phase from the local hour. WPF can't render color emoji, so the
+    // UI draws a distinct colored vector icon per phase (see MainWindow.xaml):
+    //   sunrise = pagi/matahari terbit (05-10), noon = siang/matahari terik (11-15),
+    //   sunset  = sore/matahari terbenam (16-18), night = malam/bulan sabit (19-04).
+    public string GetTimeOfDayPhase()
     {
         var now = TimeZoneInfo.ConvertTime(DateTimeOffset.UtcNow, TimezoneInfo);
         return now.Hour switch
         {
-            >= 5 and < 11 => ("☀", "#FFB74D"),   // ☀ sunrise amber - pagi
-            >= 11 and < 16 => ("☀", "#FFD23F"),  // ☀ bright gold - siang
-            >= 16 and < 19 => ("☀", "#FF7043"),  // ☀ sunset orange - sore
-            _ => ("☾", "#82B1FF")                // ☾ moon cool blue - malam
+            >= 5 and < 11 => "sunrise",
+            >= 11 and < 16 => "noon",
+            >= 16 and < 19 => "sunset",
+            _ => "night"
         };
     }
 
