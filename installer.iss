@@ -1,10 +1,10 @@
 ; WordClock Taskbar - Inno Setup Installer Script
 
 #define MyAppName "WordClock Taskbar"
-#define MyAppVersion "1.0.7"
+#define MyAppVersion "1.0.8"
 #define MyAppPublisher "WordClock"
 #define MyAppExeName "WordClockTaskbar.exe"
-#define MyAppURL "https://github.com/wordclock"
+#define MyAppURL "https://github.com/satriawandicky/WordClockTaskbar"
 
 [Setup]
 AppId={{B8A3D2E1-4F5C-6789-ABCD-EF0123456789}
@@ -15,7 +15,7 @@ AppPublisherURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
-OutputDir=C:\temp\WordClockInstaller
+OutputDir=releases
 OutputBaseFilename=WordClockTaskbar-Setup-v{#MyAppVersion}
 SetupIconFile=Resources\clock_icon.ico
 Compression=lzma2/ultra64
@@ -40,9 +40,10 @@ Name: "autostart"; Description: "Start WordClock automatically when Windows star
 Source: "bin\Release\net8.0-windows\win-x64\publish\WordClockTaskbar.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
-Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Comment: "WordClock Taskbar World Clock"
+Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"
 Name: "{group}\Uninstall {#MyAppName}"; Filename: "{uninstallexe}"
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon; WorkingDir: "{app}"
 
 [Registry]
 Root: HKCU; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "WordClockTaskbar"; ValueData: """{app}\{#MyAppExeName}"""; Flags: uninsdeletevalue; Tasks: autostart

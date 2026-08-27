@@ -3,9 +3,9 @@
 A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar with customizable colors and themes.
 
 [![Latest Release](https://img.shields.io/github/v/release/satriawandicky/WordClockTaskbar?label=latest%20release)](https://github.com/satriawandicky/WordClockTaskbar/releases/latest)
-[![Download Windows x64](https://img.shields.io/badge/download-Windows%20x64-blue)](https://github.com/satriawandicky/WordClockTaskbar/releases/download/v1.0.7/WordClockTaskbar-v1.0.7-win-x64.exe)
+[![Download Setup Installer](https://img.shields.io/badge/download-Setup%20Installer-blue)](https://github.com/satriawandicky/WordClockTaskbar/releases/download/v1.0.8/WordClockTaskbar-Setup-v1.0.8.exe)
 
-**Latest download:** [WordClockTaskbar-v1.0.7-win-x64.exe](https://github.com/satriawandicky/WordClockTaskbar/releases/download/v1.0.7/WordClockTaskbar-v1.0.7-win-x64.exe)<br>
+**Latest download:** [WordClockTaskbar-Setup-v1.0.8.exe](https://github.com/satriawandicky/WordClockTaskbar/releases/download/v1.0.8/WordClockTaskbar-Setup-v1.0.8.exe)<br>
 **Release page:** [GitHub Releases](https://github.com/satriawandicky/WordClockTaskbar/releases/latest)
 
 ## 📋 Table of Contents
@@ -19,7 +19,7 @@ A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar
 
 ## 🎯 What is WordClock?
 
-**WordClock** is a lightweight taskbar application that displays real-time for **up to 5 different timezones** directly on your Windows 11 taskbar. The application runs in the background (system tray) and does not require opening a large window or terminal.
+**WordClock** is a lightweight taskbar application that displays real-time for **up to 5 different timezones** directly on your Windows 11 taskbar in a clean, stacked 2-row text widget. The application runs in the background (system tray) and does not require opening a large window or terminal.
 
 ### Use Cases:
 - ✅ Coordinate with teams across different timezones
@@ -27,7 +27,7 @@ A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar
 - ✅ Check local times without opening other apps
 - ✅ Customizable to match your color preferences
 
-**Size:** Frameless, compact bar (~300-488x32px)<br>
+**Size:** Frameless, compact bar (~80-280x36px)<br>
 **Memory:** Minimal (~30-50 MB)  
 **OS:** Windows 11 (tested on latest builds)
 
@@ -35,27 +35,30 @@ A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar
 
 ## ✨ Key Features
 
-### 1. **Multi-Timezone Display**
-   - Displays up to **5 timezones simultaneously**
-   - **Country flag** per timezone (auto-detected from the Windows timezone; falls back to the text label)
-   - **Day/night indicator** — a colored icon per region: ☀ morning (amber), ☀ midday (gold), ☀ evening (orange), ☾ night (blue)
+### 1. **Multi-Timezone 2-Row Stacked Display**
+   - Displays up to **5 timezones simultaneously** in 2 stacked rows (e.g. US top, UK bottom)
+   - Clean string-only text (no flags needed)
    - **24-hour** format (HH:mm)
-   - GMT offset is available on hover
+   - Shows compact labels and time; GMT offset is available on hover
    - Updates in real-time every second
 
-### 2. **Customizable Timezones**
+### 2. **Windows Search Integration**
+   - Setup installer registers Start Menu shortcut automatically
+   - Easily search and launch **WordClock Taskbar** directly from Windows Search (Win + S)
+
+### 3. **Customizable Timezones**
    - Choose from **all Windows timezone IDs**
-   - Edit custom labels (e.g., "US" → "New York")
+   - Edit custom labels (e.g., "US" → "NY")
    - Reorder timezones using ↑↓ buttons
    - Automatically saves configuration to JSON
 
-### 3. **Custom Colors & Themes**
+### 4. **Custom Colors & Themes**
    - Change **background**, **text**, and **label** colors
    - Hex color format (`#FFFFFF`, `#FF0000`, etc.)
    - Default: **White text** on a dark background
    - Real-time preview
 
-### 4. **System Tray Integration**
+### 5. **System Tray Integration**
    - **Tray Icon** for quick access
    - **Context menu:**
      - Position (Left / Center / Right)
@@ -64,36 +67,26 @@ A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar
      - Start with Windows (auto-launch)
      - Exit
 
-### 5. **Window Management**
+### 6. **Window Management**
    - **Frameless, always-on-top** window
    - Reasserts topmost state when another window or overlay covers it
    - **Drag-to-move** functionality
    - **Hidden from Alt+Tab** (WS_EX_TOOLWINDOW)
    - **Prevents accidental close** (hides instead)
 
-### 6. **Automatic Updates**
-   - Checks GitHub for a newer release on launch (silently)
-   - Shows a tray balloon + a **"Update to vX.Y.Z"** menu item when one is available
-   - **One-click update**: downloads the new build, replaces the app, and relaunches — no manual reinstall
-   - Manual **"Check for Updates"** available anytime in the tray menu
-
 ---
 
 ## 📥 Installation
 
-### **Option 1: Download & Run (Recommended)**
+### **Option 1: Setup Installer (Recommended)**
 
-1. **Download the latest Windows x64 executable:**
-   [WordClockTaskbar-v1.0.7-win-x64.exe](https://github.com/satriawandicky/WordClockTaskbar/releases/download/v1.0.7/WordClockTaskbar-v1.0.7-win-x64.exe)
+1. **Download the latest Windows x64 installer:**
+   [WordClockTaskbar-Setup-v1.0.8.exe](https://github.com/satriawandicky/WordClockTaskbar/releases/download/v1.0.8/WordClockTaskbar-Setup-v1.0.8.exe)
 
-2. **Run (double-click):**
-   - The app will run immediately in the system tray
-   - No installation or administrator rights required
-   - The release build is self-contained, so .NET does not need to be installed separately
-
-3. **(Optional) Move to a permanent location:**
-   - Copy `WordClockTaskbar.exe` to your Desktop or preferred folder
-   - Double-click anytime to launch
+2. **Run Installer:**
+   - Registers WordClock in Windows Search and Start Menu
+   - Option to launch automatically on Windows startup
+   - The app runs in the system tray
 
 All public downloads are available from the [latest GitHub Release](https://github.com/satriawandicky/WordClockTaskbar/releases/latest).
 
@@ -125,198 +118,13 @@ dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=
 
 ## 🎮 How to Use
 
-### **Default View**
+### **Default 2-Row Stacked View**
 ```
-┌─────────────────────────────────────────┐
-│ US 14:30   UK 19:30   IN 00:00         │
-└─────────────────────────────────────────┘
+┌───────────────────────────┐
+│ US 14:30   IN 00:00       │
+│ UK 19:30   JP 03:30       │
+└───────────────────────────┘
 ```
 - **Label:** Timezone identifier (US, UK, IN, etc.)
 - **Time:** HH:mm (24-hour format)
 - **GMT:** Offset from GMT is shown in the hover tooltip
-
-### **Interaction:**
-
-#### **Right-Click → Position**
-- **Left:** Position on the left side of the taskbar
-- **Center:** Position in the center of the taskbar
-- **Right:** Position near the system clock (default)
-
-#### **Right-Click → Settings**
-Open customization window:
-- ➕ **Add Timezone** - Add a new timezone
-- ⬆️ **Move Up** - Change order
-- ⬇️ **Move Down** - Change order
-- ✕ **Remove** - Delete a timezone
-- 💾 **Save** - Save configuration
-
-#### **Right-Click → Show/Hide Window**
-- Toggle window visibility
-- Remains running in the background
-
-#### **Right-Click → Start with Windows**
-- Enable auto-launch on boot
-- Toggle on/off as needed
-
-#### **Drag Window**
-- Click & drag the clock bar to reposition
-
----
-
-## 🎨 Customization
-
-### **Settings Window**
-
-#### **1. Timezone Management**
-```
-┌─ Timezones (max 5) ─────────────────┐
-│ Label    | Timezone ID Dropdown | ↑↓✕  │
-│ "US"     | Eastern Standard ... | ↑↓✕  │
-│ "UK"     | GMT Standard Time   | ↑↓✕  │
-│ "IN"     | India Standard Time | ↑↓✕  │
-│                    [Add Timezone]      │
-└─────────────────────────────────────┘
-```
-
-**Timezone ID Examples:**
-- `Eastern Standard Time` (US)
-- `GMT Standard Time` (UK)
-- `India Standard Time` (India)
-- `Central European Standard Time` (EU)
-- `Tokyo Standard Time` (Japan)
-- Etc. (all Windows timezone IDs available)
-
-#### **2. Theme Colors**
-```
-┌─ Theme Colors ──────────────────────┐
-│ Background: #E6202020               │
-│ Text Color: #FFFFFF (white)         │
-│ Label Color: #FFFFFF (white)        │
-└─────────────────────────────────────┘
-```
-
-**Hex Color Format:** `#RRGGBB` or `#AARRGGBB`
-
-**Examples:**
-| Color | Hex Value |
-|-------|-----------|
-| White | `#FFFFFF` |
-| Black | `#000000` |
-| Red   | `#FF0000` |
-| Green | `#00FF00` |
-| Blue  | `#0000FF` |
-| Gold  | `#FFD700` |
-| Orange| `#FFA500` |
-
-**Default Config:**
-```json
-{
-  "Timezones": [
-    { "Label": "US", "TimezoneId": "Eastern Standard Time", "Order": 0 },
-    { "Label": "UK", "TimezoneId": "GMT Standard Time", "Order": 1 },
-    { "Label": "IN", "TimezoneId": "India Standard Time", "Order": 2 }
-  ],
-  "Theme": {
-    "BackgroundColor": "#E6202020",
-    "TextColor": "#FFFFFF",
-    "LabelColor": "#FFFFFF",
-    "UseDarkMode": true
-  }
-}
-```
-
-**Config Location:**
-```
-C:\Users\[YourUsername]\AppData\Roaming\WordClockTaskbar\wordclock-config.json
-```
-
----
-
-## 🔧 Troubleshooting
-
-### **App doesn't appear on the taskbar?**
-- Check the system tray (bottom right, ^ button to expand)
-- Right-click icon → "Show Window"
-
-### **Timezone doesn't update?**
-- Restart the application
-- Ensure the timezone ID is valid (check Settings)
-
-### **Color doesn't change?**
-- Ensure the hex format is valid (`#RRGGBB`)
-- Restart the app after saving settings
-- Check: `wordclock-config.json` in AppData
-
-### **App closes automatically?**
-- This is normal if you close the window
-- The window hides, but the app stays running in the background
-- Right-click tray → "Show Window" to display it again
-
----
-
-## 📱 Screenshot Example
-
-**Clock on taskbar:**
-```
-[System icons] [WordClock: US 14:30   UK 19:30   IN 00:00] [System clock]
-```
-
-**Settings Window:**
-- Timezone list with edit/reorder/remove
-- Color picker for background, text, label
-- Save button to apply changes
-
----
-
-## 📝 Technical Details
-
-**Tech Stack:**
-- **.NET 8 WPF** - UI Framework
-- **C# 12** - Language
-- **System.Windows.Forms.NotifyIcon** - Tray integration
-- **Windows API (P/Invoke)** - Taskbar positioning
-- **JSON (System.Text.Json)** - Config persistence
-
-**Architecture:**
-- MVVM pattern (Model-View-ViewModel)
-- Timezone management via TimeZoneInfo
-- Real-time updates via DispatcherTimer (1s interval)
-- Theme support via hex color conversion
-
-**File Structure:**
-```
-WordClockTaskbar/
-├── Models/
-│   ├── TimezoneClockModel.cs
-│   └── TimezoneConfig.cs
-├── ViewModels/
-│   ├── ClockViewModel.cs
-│   └── SettingsViewModel.cs
-├── Helpers/
-│   ├── TaskbarHelper.cs
-│   └── ThemeHelper.cs
-├── MainWindow.xaml
-├── SettingsWindow.xaml
-├── App.xaml
-└── Resources/
-    └── Styles.xaml
-```
-
----
-
-## 📄 License
-
-Free to use & modify for personal/commercial use.
-
----
-
-## 🤝 Support
-
-For issues or feature requests:
-- Edit the config file directly at `AppData\Roaming\WordClockTaskbar\wordclock-config.json`
-- Restart the application to apply changes
-- Check event logs if any errors occur
-
----
-
-**Happy clocking! ⏰**

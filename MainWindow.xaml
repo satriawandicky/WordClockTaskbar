@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:WordClockTaskbar.ViewModels"
         Title="WorldClock"
-        Width="548" Height="32"
-        MinWidth="300"
-        MaxWidth="580"
+        Height="36"
+        Width="180"
+        MinWidth="80"
+        MaxWidth="500"
         WindowStyle="None"
         AllowsTransparency="True"
         Topmost="True"
@@ -18,228 +19,88 @@
         <vm:ClockViewModel/>
     </Window.DataContext>
 
-    <Window.Resources>
-        <!-- Colored vector time-of-day icons (24x24). Distinct shapes + colors so
-             they read clearly on the taskbar and don't rely on emoji fonts. -->
-
-        <!-- Sunrise / matahari terbit: sun above horizon + UP arrow, warm amber -->
-        <DrawingImage x:Key="IcoSunrise">
-            <DrawingImage.Drawing>
-                <DrawingGroup>
-                    <GeometryDrawing Brush="#FFB74D">
-                        <GeometryDrawing.Geometry>
-                            <EllipseGeometry Center="12,14" RadiusX="3.8" RadiusY="3.8"/>
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                    <GeometryDrawing>
-                        <GeometryDrawing.Pen>
-                            <Pen Brush="#FFB74D" Thickness="1.8" StartLineCap="Round" EndLineCap="Round" LineJoin="Round"/>
-                        </GeometryDrawing.Pen>
-                        <GeometryDrawing.Geometry>
-                            <GeometryGroup>
-                                <LineGeometry StartPoint="12,3" EndPoint="12,8"/>
-                                <LineGeometry StartPoint="9.6,5.4" EndPoint="12,3"/>
-                                <LineGeometry StartPoint="14.4,5.4" EndPoint="12,3"/>
-                            </GeometryGroup>
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                    <GeometryDrawing>
-                        <GeometryDrawing.Pen>
-                            <Pen Brush="#FFC98A" Thickness="2" StartLineCap="Round" EndLineCap="Round"/>
-                        </GeometryDrawing.Pen>
-                        <GeometryDrawing.Geometry>
-                            <LineGeometry StartPoint="2.5,19.5" EndPoint="21.5,19.5"/>
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
-
-        <!-- Noon / matahari terik: full radiant sun, bright gold -->
-        <DrawingImage x:Key="IcoNoon">
-            <DrawingImage.Drawing>
-                <DrawingGroup>
-                    <GeometryDrawing Brush="#FFC400">
-                        <GeometryDrawing.Geometry>
-                            <EllipseGeometry Center="12,12" RadiusX="4.2" RadiusY="4.2"/>
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                    <GeometryDrawing>
-                        <GeometryDrawing.Pen>
-                            <Pen Brush="#FFC400" Thickness="1.8" StartLineCap="Round" EndLineCap="Round"/>
-                        </GeometryDrawing.Pen>
-                        <GeometryDrawing.Geometry>
-                            <GeometryGroup>
-                                <LineGeometry StartPoint="12,2" EndPoint="12,4.5"/>
-                                <LineGeometry StartPoint="12,19.5" EndPoint="12,22"/>
-                                <LineGeometry StartPoint="2,12" EndPoint="4.5,12"/>
-                                <LineGeometry StartPoint="19.5,12" EndPoint="22,12"/>
-                                <LineGeometry StartPoint="5,5" EndPoint="6.8,6.8"/>
-                                <LineGeometry StartPoint="19,5" EndPoint="17.2,6.8"/>
-                                <LineGeometry StartPoint="5,19" EndPoint="6.8,17.2"/>
-                                <LineGeometry StartPoint="19,19" EndPoint="17.2,17.2"/>
-                            </GeometryGroup>
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
-
-        <!-- Sunset / matahari terbenam: sun above horizon + DOWN arrow, deep orange -->
-        <DrawingImage x:Key="IcoSunset">
-            <DrawingImage.Drawing>
-                <DrawingGroup>
-                    <GeometryDrawing Brush="#FF6B3D">
-                        <GeometryDrawing.Geometry>
-                            <EllipseGeometry Center="12,14" RadiusX="3.8" RadiusY="3.8"/>
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                    <GeometryDrawing>
-                        <GeometryDrawing.Pen>
-                            <Pen Brush="#FF6B3D" Thickness="1.8" StartLineCap="Round" EndLineCap="Round" LineJoin="Round"/>
-                        </GeometryDrawing.Pen>
-                        <GeometryDrawing.Geometry>
-                            <GeometryGroup>
-                                <LineGeometry StartPoint="12,3" EndPoint="12,8"/>
-                                <LineGeometry StartPoint="9.6,5.6" EndPoint="12,8"/>
-                                <LineGeometry StartPoint="14.4,5.6" EndPoint="12,8"/>
-                            </GeometryGroup>
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                    <GeometryDrawing>
-                        <GeometryDrawing.Pen>
-                            <Pen Brush="#FF9A6B" Thickness="2" StartLineCap="Round" EndLineCap="Round"/>
-                        </GeometryDrawing.Pen>
-                        <GeometryDrawing.Geometry>
-                            <LineGeometry StartPoint="2.5,19.5" EndPoint="21.5,19.5"/>
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
-
-        <!-- Night / bulan sabit: crescent moon, cool blue -->
-        <DrawingImage x:Key="IcoMoon">
-            <DrawingImage.Drawing>
-                <GeometryDrawing Brush="#82B1FF">
-                    <GeometryDrawing.Geometry>
-                        <CombinedGeometry GeometryCombineMode="Exclude">
-                            <CombinedGeometry.Geometry1>
-                                <EllipseGeometry Center="11,12" RadiusX="7.5" RadiusY="7.5"/>
-                            </CombinedGeometry.Geometry1>
-                            <CombinedGeometry.Geometry2>
-                                <EllipseGeometry Center="14.8,9.4" RadiusX="6.6" RadiusY="6.6"/>
-                            </CombinedGeometry.Geometry2>
-                        </CombinedGeometry>
-                    </GeometryDrawing.Geometry>
-                </GeometryDrawing>
-            </DrawingImage.Drawing>
-        </DrawingImage>
-    </Window.Resources>
-
     <Border x:Name="RootBorder"
             CornerRadius="6"
             BorderBrush="{DynamicResource ChromeBorderColor}"
             BorderThickness="1"
-            Padding="10,0">
-        <ItemsControl ItemsSource="{Binding Timezones}">
+            Padding="8,1">
+        <ItemsControl ItemsSource="{Binding Columns}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Rows="1"
-                                 VerticalAlignment="Center"
-                                 HorizontalAlignment="Stretch"/>
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid Height="24"
-                          MinWidth="88"
-                          VerticalAlignment="Center"
-                          HorizontalAlignment="Center"
-                          ToolTip="{Binding GMTOffset}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid Margin="0,0,6,0"
-                              VerticalAlignment="Center"
-                              HorizontalAlignment="Right">
-                            <Image Source="{Binding Flag}"
-                                   Height="13"
-                                   Stretch="Uniform"
-                                   SnapsToDevicePixels="True"
-                                   RenderOptions.BitmapScalingMode="HighQuality"
-                                   RenderOptions.EdgeMode="Aliased">
-                                <Image.Style>
-                                    <Style TargetType="Image">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding HasFlag}" Value="True">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Image.Style>
-                            </Image>
-                            <TextBlock Text="{Binding Label}"
-                                       Foreground="{DynamicResource LabelColor}"
-                                       FontFamily="Segoe UI Variable Text, Segoe UI"
-                                       FontSize="9"
-                                       FontWeight="SemiBold"
-                                       Opacity="0.62"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Right"
-                                       TextTrimming="CharacterEllipsis"
-                                       MaxWidth="24">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding HasFlag}" Value="True">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </Grid>
-                        <Image Grid.Column="1"
-                               Width="16"
-                               Height="16"
-                               Stretch="Uniform"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Center"
-                               Margin="0,0,5,0"
-                               RenderOptions.BitmapScalingMode="HighQuality">
-                            <Image.Style>
-                                <Style TargetType="Image">
+                    <StackPanel Orientation="Vertical"
+                                VerticalAlignment="Center"
+                                Margin="6,0">
+                        <!-- Top Clock -->
+                        <ContentControl Content="{Binding TopClock}">
+                            <ContentControl.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal"
+                                                VerticalAlignment="Center"
+                                                Height="15"
+                                                ToolTip="{Binding GMTOffset}">
+                                        <TextBlock Text="{Binding Label}"
+                                                   Foreground="{DynamicResource LabelColor}"
+                                                   FontFamily="Segoe UI Variable Text, Segoe UI"
+                                                   FontSize="10"
+                                                   FontWeight="SemiBold"
+                                                   Opacity="0.75"
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,0,4,0"/>
+                                        <TextBlock Text="{Binding Time}"
+                                                   Foreground="{DynamicResource ForegroundColor}"
+                                                   FontFamily="Segoe UI Variable Text, Segoe UI"
+                                                   FontSize="11"
+                                                   FontWeight="Bold"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ContentControl.ContentTemplate>
+                        </ContentControl>
+
+                        <!-- Bottom Clock -->
+                        <ContentControl Content="{Binding BottomClock}">
+                            <ContentControl.Style>
+                                <Style TargetType="ContentControl">
+                                    <Setter Property="Visibility" Value="Visible"/>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Phase}" Value="sunrise">
-                                            <Setter Property="Source" Value="{StaticResource IcoSunrise}"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Phase}" Value="noon">
-                                            <Setter Property="Source" Value="{StaticResource IcoNoon}"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Phase}" Value="sunset">
-                                            <Setter Property="Source" Value="{StaticResource IcoSunset}"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Phase}" Value="night">
-                                            <Setter Property="Source" Value="{StaticResource IcoMoon}"/>
+                                        <DataTrigger Binding="{Binding BottomClock}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </Image.Style>
-                        </Image>
-                        <TextBlock Grid.Column="2"
-                                   Text="{Binding Time}"
-                                   Foreground="{DynamicResource ForegroundColor}"
-                                   FontFamily="Segoe UI Variable Text, Segoe UI"
-                                   FontSize="12"
-                                   FontWeight="Bold"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"/>
-                    </Grid>
+                            </ContentControl.Style>
+                            <ContentControl.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal"
+                                                VerticalAlignment="Center"
+                                                Height="15"
+                                                ToolTip="{Binding GMTOffset}">
+                                        <TextBlock Text="{Binding Label}"
+                                                   Foreground="{DynamicResource LabelColor}"
+                                                   FontFamily="Segoe UI Variable Text, Segoe UI"
+                                                   FontSize="10"
+                                                   FontWeight="SemiBold"
+                                                   Opacity="0.75"
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,0,4,0"/>
+                                        <TextBlock Text="{Binding Time}"
+                                                   Foreground="{DynamicResource ForegroundColor}"
+                                                   FontFamily="Segoe UI Variable Text, Segoe UI"
+                                                   FontSize="11"
+                                                   FontWeight="Bold"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ContentControl.ContentTemplate>
+                        </ContentControl>
+                    </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

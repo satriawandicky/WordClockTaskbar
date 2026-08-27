@@ -73,10 +73,33 @@ public class TimezoneDisplayModel : INotifyPropertyChanged
         => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 }
 
+public class TimezoneColumnModel : INotifyPropertyChanged
+{
+    private TimezoneDisplayModel? _topClock;
+    private TimezoneDisplayModel? _bottomClock;
+
+    public TimezoneDisplayModel? TopClock
+    {
+        get => _topClock;
+        set { _topClock = value; OnPropertyChanged(); }
+    }
+
+    public TimezoneDisplayModel? BottomClock
+    {
+        get => _bottomClock;
+        set { _bottomClock = value; OnPropertyChanged(); }
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+    protected void OnPropertyChanged([CallerMemberName] string? name = null)
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+}
+
 public class ClockViewModel : INotifyPropertyChanged
 {
     private readonly DispatcherTimer _timer;
     public ObservableCollection<TimezoneDisplayModel> Timezones { get; } = new();
+    public ObservableCollection<TimezoneColumnModel> Columns { get; } = new();
 
     public ClockViewModel()
     {
@@ -87,6 +110,7 @@ public class ClockViewModel : INotifyPropertyChanged
         }
 
         UpdateTimes();
+        UpdateColumns();
 
         _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
         _timer.Tick += (_, _) => UpdateTimes();
@@ -106,6 +130,18 @@ public class ClockViewModel : INotifyPropertyChanged
         foreach (var entry in config.Timezones.OrderBy(t => t.Order))
         {
             Timezones.Add(new TimezoneDisplayModel(entry.Label, entry.TimezoneId));
+        }
+        UpdateColumns();
+    }
+
+    private void UpdateColumns()
+    {
+        Columns.Clear();
+        for (int i = 0; i < Timezones.Count; i += 2)
+        {
+            var top = Timezones[i];
+            var bottom = (i + 1 < Timezones.Count) ? Timezones[i + 1] : null;
+            Columns.Add(new TimezoneColumnModel { TopClock = top, BottomClock = bottom });
         }
     }
 

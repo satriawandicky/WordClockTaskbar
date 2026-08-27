@@ -10,10 +10,10 @@ namespace WordClockTaskbar;
 
 public partial class MainWindow : Window
 {
-    private const double WindowPaddingWidth = 28;
-    private const double TimezoneItemWidth = 104;
-    private const double MinClockWidth = 300;
-    private const double MaxClockWidth = 560;
+    private const double WindowPaddingWidth = 20;
+    private const double ColumnItemWidth = 72;
+    private const double MinClockWidth = 80;
+    private const double MaxClockWidth = 500;
 
     private readonly DispatcherTimer _topmostWatchdog;
     private bool _isAlwaysOnTop = true;
@@ -79,8 +79,8 @@ public partial class MainWindow : Window
         if (DataContext is not ClockViewModel vm)
             return;
 
-        var visibleCount = Math.Clamp(vm.Timezones.Count, 1, 5);
-        Width = Math.Clamp(WindowPaddingWidth + (visibleCount * TimezoneItemWidth), MinClockWidth, MaxClockWidth);
+        int columnCount = Math.Max(1, (int)Math.Ceiling(vm.Timezones.Count / 2.0));
+        Width = Math.Clamp(WindowPaddingWidth + (columnCount * ColumnItemWidth), MinClockWidth, MaxClockWidth);
     }
 
     private void ApplyAlwaysOnTop(bool enabled)
