@@ -43,14 +43,24 @@ public partial class MainWindow : Window
         };
     }
 
-    public void EnsureVisible()
+    public void EnsureVisible(bool resetPosition = false)
     {
         var config = TimezoneConfig.Load();
         _isAlwaysOnTop = config.IsAlwaysOnTop;
 
         FitToTimezoneCount();
-        TaskbarHelper.PositionNearClock(this);
-        ClampToScreen();
+
+        if (!resetPosition && config.CustomLeft.HasValue && config.CustomTop.HasValue)
+        {
+            Left = config.CustomLeft.Value;
+            Top = config.CustomTop.Value;
+            ClampToScreen();
+        }
+        else
+        {
+            TaskbarHelper.PositionNearClock(this);
+            ClampToScreen();
+        }
 
         WindowState = WindowState.Normal;
         Visibility = Visibility.Visible;
@@ -69,8 +79,7 @@ public partial class MainWindow : Window
     {
         ApplyTheme();
         FitToTimezoneCount();
-        TaskbarHelper.PositionNearClock(this);
-        ClampToScreen();
+        EnsureVisible(resetPosition: false);
         ReassertTopmost();
     }
 
@@ -114,17 +123,22 @@ public partial class MainWindow : Window
 
     private void ClampToScreen()
     {
-        var workArea = SystemParameters.WorkArea;
         var virtualLeft = SystemParameters.VirtualScreenLeft;
         var virtualTop = SystemParameters.VirtualScreenTop;
         var virtualRight = virtualLeft + SystemParameters.VirtualScreenWidth;
         var virtualBottom = virtualTop + SystemParameters.VirtualScreenHeight;
 
         if (double.IsNaN(Left) || Left < virtualLeft || Left + Width > virtualRight)
-            Left = workArea.Right - Width - 16;
+        {
+            var tb = TaskbarHelper.GetTaskbarRectDip();
+            Left = Math.Max(0, tb.Left + tb.Width - Width - 220);
+        }
 
         if (double.IsNaN(Top) || Top < virtualTop || Top + Height > virtualBottom)
-            Top = workArea.Bottom - Height - 4;
+        {
+            var tb = TaskbarHelper.GetTaskbarRectDip();
+            Top = tb.Top + Math.Max(2, (tb.Height - Height) / 2.0);
+        }
     }
 
     private void ApplyTheme()
@@ -150,10 +164,26 @@ public partial class MainWindow : Window
         return brush;
     }
 
+    public void SavePosition()
+    {
+        try
+        {
+            var config = TimezoneConfig.Load();
+            config.CustomLeft = Left;
+            config.CustomTop = Top;
+            config.Save();
+        }
+        catch { }
+    }
+
     protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
     {
         base.OnMouseLeftButtonDown(e);
-        DragMove();
+        if (e.ButtonState == MouseButtonState.Pressed)
+        {
+            DragMove();
+            SavePosition();
+        }
     }
 
     protected override void OnDeactivated(EventArgs e)

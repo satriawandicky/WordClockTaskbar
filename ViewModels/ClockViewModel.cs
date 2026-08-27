@@ -131,6 +131,7 @@ public class ClockViewModel : INotifyPropertyChanged
         {
             Timezones.Add(new TimezoneDisplayModel(entry.Label, entry.TimezoneId));
         }
+        UpdateTimes();
         UpdateColumns();
     }
 

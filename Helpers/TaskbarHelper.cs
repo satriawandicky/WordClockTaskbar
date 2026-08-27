@@ -59,53 +59,68 @@ public static class TaskbarHelper
 
     public enum Position { Left, Center, Right }
 
-    public static void PositionOnTaskbar(Window window, Position position)
+    public static (double Left, double Top, double Width, double Height) GetTaskbarRectDip()
     {
         double dpiScale = GetDpiForSystem() / 96.0;
+        if (dpiScale <= 0) dpiScale = 1.0;
+
+        var taskbarHandle = FindWindow("Shell_TrayWnd", null);
+        if (taskbarHandle != IntPtr.Zero && GetWindowRect(taskbarHandle, out var taskbarRect))
+        {
+            double l = taskbarRect.Left / dpiScale;
+            double t = taskbarRect.Top / dpiScale;
+            double w = (taskbarRect.Right - taskbarRect.Left) / dpiScale;
+            double h = (taskbarRect.Bottom - taskbarRect.Top) / dpiScale;
+            if (w > 100 && h > 20)
+                return (l, t, w, h);
+        }
+
         var workArea = SystemParameters.WorkArea;
         var primaryWidth = SystemParameters.PrimaryScreenWidth;
         var primaryHeight = SystemParameters.PrimaryScreenHeight;
 
-        var taskbarHandle = FindWindow("Shell_TrayWnd", null);
-
-        double topInDip;
-        double taskbarLeftDip = 0;
-        double taskbarRightDip = primaryWidth;
-        double trayLeftDip = primaryWidth - 200;
-
-        if (taskbarHandle != IntPtr.Zero && GetWindowRect(taskbarHandle, out var taskbarRect))
+        if (workArea.Bottom < primaryHeight)
         {
-            double taskbarTopDip = taskbarRect.Top / dpiScale;
-            double taskbarHeightDip = (taskbarRect.Bottom - taskbarRect.Top) / dpiScale;
-            taskbarLeftDip = taskbarRect.Left / dpiScale;
-            taskbarRightDip = taskbarRect.Right / dpiScale;
-
-            topInDip = taskbarTopDip + (taskbarHeightDip - window.Height) / 2.0;
-
-            var trayHandle = FindWindowEx(taskbarHandle, IntPtr.Zero, "TrayNotifyWnd", null);
-            if (trayHandle != IntPtr.Zero && GetWindowRect(trayHandle, out var trayRect))
-            {
-                trayLeftDip = trayRect.Left / dpiScale;
-            }
-            else
-            {
-                trayLeftDip = taskbarRightDip - 200;
-            }
+            // Standard bottom taskbar
+            return (0, workArea.Bottom, primaryWidth, primaryHeight - workArea.Bottom);
         }
-        else
+        if (workArea.Top > 0)
         {
-            topInDip = workArea.Bottom - window.Height - 4;
-            trayLeftDip = workArea.Right - 200;
-            taskbarLeftDip = workArea.Left;
-            taskbarRightDip = workArea.Right;
+            // Top taskbar
+            return (0, 0, primaryWidth, workArea.Top);
+        }
+        if (workArea.Left > 0)
+        {
+            // Left taskbar
+            return (0, 0, workArea.Left, primaryHeight);
+        }
+        if (workArea.Right < primaryWidth)
+        {
+            // Right taskbar
+            return (workArea.Right, 0, primaryWidth - workArea.Right, primaryHeight);
         }
 
+        // Fallback: bottom 48 DIPs
+        return (0, primaryHeight - 48, primaryWidth, 48);
+    }
+
+    public static void PositionOnTaskbar(Window window, Position position)
+    {
+        var tb = GetTaskbarRectDip();
+        var primaryWidth = SystemParameters.PrimaryScreenWidth;
+        var primaryHeight = SystemParameters.PrimaryScreenHeight;
+
+        // Position vertically centered inside the taskbar
+        double topInDip = tb.Top + Math.Max(2, (tb.Height - window.Height) / 2.0);
+
+        // Position horizontally
+        // In Windows 11, the tray icons & clock occupy ~200-240px from the right edge
         double leftInDip = position switch
         {
-            Position.Left => taskbarLeftDip + 60,
-            Position.Center => taskbarLeftDip + ((taskbarRightDip - taskbarLeftDip) - window.Width) / 2.0,
-            Position.Right => trayLeftDip - window.Width - 8,
-            _ => trayLeftDip - window.Width - 8
+            Position.Left => tb.Left + 60,
+            Position.Center => tb.Left + (tb.Width - window.Width) / 2.0,
+            Position.Right => tb.Left + tb.Width - window.Width - 220,
+            _ => tb.Left + tb.Width - window.Width - 220
         };
 
         if (leftInDip < 0) leftInDip = 8;

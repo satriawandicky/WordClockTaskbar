@@ -75,17 +75,34 @@ public partial class App : Application
         posMenu.DropDownItems.Add("Left", null, (_, _) =>
         {
             if (MainWindow is MainWindow mw)
+            {
                 TaskbarHelper.PositionOnTaskbar(mw, TaskbarHelper.Position.Left);
+                mw.SavePosition();
+            }
         });
         posMenu.DropDownItems.Add("Center", null, (_, _) =>
         {
             if (MainWindow is MainWindow mw)
+            {
                 TaskbarHelper.PositionOnTaskbar(mw, TaskbarHelper.Position.Center);
+                mw.SavePosition();
+            }
         });
-        posMenu.DropDownItems.Add("Right", null, (_, _) =>
+        posMenu.DropDownItems.Add("Right (Near Clock)", null, (_, _) =>
         {
             if (MainWindow is MainWindow mw)
+            {
                 TaskbarHelper.PositionOnTaskbar(mw, TaskbarHelper.Position.Right);
+                mw.SavePosition();
+            }
+        });
+        posMenu.DropDownItems.Add("Reset Position", null, (_, _) =>
+        {
+            if (MainWindow is MainWindow mw)
+            {
+                mw.EnsureVisible(resetPosition: true);
+                mw.SavePosition();
+            }
         });
         menu.Items.Add(posMenu);
 

@@ -16,6 +16,8 @@ public class TimezoneConfig
     public List<TimezoneEntry> Timezones { get; set; } = new();
     public ThemeSettings Theme { get; set; } = new();
     public bool IsAlwaysOnTop { get; set; } = true;
+    public double? CustomLeft { get; set; }
+    public double? CustomTop { get; set; }
 
     private const string ConfigFile = "wordclock-config.json";
     private static readonly string ConfigPath = Path.Combine(
