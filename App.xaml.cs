@@ -23,10 +23,41 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
-        CreateTrayIcon();
-        // Silently check for a newer release on launch; surfaces a balloon + a
-        // one-click "Update to vX" tray item when one is available.
-        _ = CheckForUpdatesAsync(silent: true);
+
+        AppDomain.CurrentDomain.UnhandledException += (s, args) =>
+        {
+            LogException(args.ExceptionObject as Exception);
+        };
+
+        DispatcherUnhandledException += (s, args) =>
+        {
+            LogException(args.Exception);
+            args.Handled = true;
+        };
+
+        try
+        {
+            CreateTrayIcon();
+            _ = CheckForUpdatesAsync(silent: true);
+        }
+        catch (Exception ex)
+        {
+            LogException(ex);
+        }
+    }
+
+    private static void LogException(Exception? ex)
+    {
+        if (ex is null) return;
+        try
+        {
+            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var dir = System.IO.Path.Combine(appData, "WordClockTaskbar");
+            System.IO.Directory.CreateDirectory(dir);
+            var file = System.IO.Path.Combine(dir, "error.log");
+            System.IO.File.AppendAllText(file, $"[{DateTime.Now}] {ex}\n\n");
+        }
+        catch { }
     }
 
     private void CreateTrayIcon()
