@@ -5,6 +5,8 @@ using WordClockTaskbar.Models;
 
 namespace WordClockTaskbar.ViewModels;
 
+public sealed record TimezoneOption(string Id, string DisplayName);
+
 public class SettingsViewModel : INotifyPropertyChanged
 {
     private TimezoneConfig _config = null!;
@@ -14,7 +16,7 @@ public class SettingsViewModel : INotifyPropertyChanged
     private bool _isAlwaysOnTop = true;
 
     public ObservableCollection<TimezoneEntry> Timezones { get; } = new();
-    public List<string> AvailableTimezoneIds { get; }
+    public List<TimezoneOption> AvailableTimezones { get; }
 
     public string BackgroundColor { get => _backgroundColor; set { _backgroundColor = value; OnPropertyChanged(); } }
     public string TextColor { get => _textColor; set { _textColor = value; OnPropertyChanged(); } }
@@ -23,11 +25,10 @@ public class SettingsViewModel : INotifyPropertyChanged
 
     public SettingsViewModel()
     {
-        AvailableTimezoneIds = TimeZoneInfo.GetSystemTimeZones()
+        AvailableTimezones = TimeZoneInfo.GetSystemTimeZones()
             .OrderBy(tz => tz.DisplayName)
-            .Select(tz => tz.Id)
+            .Select(tz => new TimezoneOption(tz.Id, $"{tz.DisplayName} — {tz.Id}"))
             .ToList();
-
         LoadConfig();
     }
 

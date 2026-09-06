@@ -173,19 +173,10 @@ public partial class App : Application
 
         menu.Items.Add("Settings", null, (_, _) =>
         {
-            var settingsWindow = new SettingsWindow();
-            if (settingsWindow.ShowDialog() == true)
-            {
-                if (MainWindow is MainWindow mw && mw.DataContext is ViewModels.ClockViewModel vm)
-                {
-                    var config = WordClockTaskbar.Models.TimezoneConfig.Load();
-                    alwaysOnTopItem.Checked = config.IsAlwaysOnTop;
+            if (MainWindow is MainWindow mw)
+                mw.OpenSettings();
 
-                    vm.ReloadConfig();
-                    mw.SetAlwaysOnTop(config.IsAlwaysOnTop);
-                    mw.RefreshLayoutAndPosition();
-                }
-            }
+            alwaysOnTopItem.Checked = WordClockTaskbar.Models.TimezoneConfig.Load().IsAlwaysOnTop;
         });
 
         menu.Items.Add(new System.Windows.Forms.ToolStripSeparator());

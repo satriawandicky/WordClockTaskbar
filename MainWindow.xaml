@@ -24,6 +24,19 @@
             BorderBrush="{DynamicResource ChromeBorderColor}"
             BorderThickness="1"
             Padding="8,1">
+        <Border.ContextMenu>
+            <ContextMenu Opened="WidgetContextMenu_Opened">
+                <MenuItem Header="Settings…" Click="SettingsMenuItem_Click"/>
+                <Separator/>
+                <MenuItem x:Name="AlwaysOnTopMenuItem"
+                          Header="Always on Top"
+                          IsCheckable="True"
+                          Click="AlwaysOnTopMenuItem_Click"/>
+                <MenuItem Header="Reset Position" Click="ResetPositionMenuItem_Click"/>
+                <Separator/>
+                <MenuItem Header="Exit" Click="ExitMenuItem_Click"/>
+            </ContextMenu>
+        </Border.ContextMenu>
         <ItemsControl ItemsSource="{Binding Columns}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

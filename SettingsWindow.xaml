@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:WordClockTaskbar.ViewModels"
         Title="WordClock Settings"
-        Width="600" Height="500"
+        Width="720" Height="660"
+        MinWidth="640" MinHeight="620"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanResize"
         Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
@@ -14,6 +15,7 @@
 
     <Grid Margin="16">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -46,8 +48,10 @@
                                          Padding="4" Height="24" Margin="0,0,8,0"/>
 
                                 <ComboBox Grid.Column="1"
-                                          ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.AvailableTimezoneIds}"
-                                          SelectedItem="{Binding TimezoneId}"
+                                          ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.AvailableTimezones}"
+                                          DisplayMemberPath="DisplayName"
+                                          SelectedValuePath="Id"
+                                          SelectedValue="{Binding TimezoneId}"
                                           Padding="4" Height="24" Margin="0,0,8,0"/>
 
                                 <StackPanel Grid.Column="2" Orientation="Horizontal">
@@ -72,11 +76,64 @@
 
         <!-- Window Options -->
         <GroupBox Header="Window Options" Padding="12" Margin="0,0,0,12" Grid.Row="1">
-            <CheckBox Content="Always on Top" IsChecked="{Binding IsAlwaysOnTop, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"/>
+            <StackPanel>
+                <CheckBox Content="Always on Top"
+                          IsChecked="{Binding IsAlwaysOnTop, UpdateSourceTrigger=PropertyChanged}"
+                          VerticalAlignment="Center"/>
+                <TextBlock Text="Tip: right-click or double-click the widget to open these settings."
+                           Opacity="0.65" Margin="0,6,0,0"/>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- UTC Converter -->
+        <GroupBox Header="UTC Time Converter" Padding="12" Margin="0,0,0,12" Grid.Row="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="UTC date/time:" VerticalAlignment="Center" Margin="0,0,12,8"/>
+                <TextBox x:Name="UtcInputTextBox"
+                         Grid.Column="1"
+                         Padding="6,4"
+                         Margin="0,0,8,8"
+                         ToolTip="Format: yyyy-MM-dd HH:mm"/>
+                <Button Grid.Column="2"
+                        Content="Use UTC Now"
+                        Padding="12,5"
+                        Margin="0,0,0,8"
+                        Click="UseUtcNowButton_Click"/>
+
+                <TextBlock Grid.Row="1" Text="Target timezone:" VerticalAlignment="Center" Margin="0,0,12,8"/>
+                <ComboBox x:Name="ConverterTimezoneComboBox"
+                          Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+                          ItemsSource="{Binding AvailableTimezones}"
+                          DisplayMemberPath="DisplayName"
+                          SelectedValuePath="Id"
+                          Padding="4" Margin="0,0,0,8"/>
+
+                <Button Grid.Row="2"
+                        Content="Convert"
+                        Padding="16,6"
+                        HorizontalAlignment="Left"
+                        Click="ConvertUtcButton_Click"/>
+                <TextBlock x:Name="ConversionResultTextBlock"
+                           Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
+                           VerticalAlignment="Center"
+                           FontWeight="SemiBold"
+                           Text="Enter a UTC time and select the destination timezone."/>
+            </Grid>
         </GroupBox>
 
         <!-- Theme Settings -->
-        <GroupBox Header="Theme Colors" Padding="12" Margin="0,0,0,12" Grid.Row="2">
+        <GroupBox Header="Theme Colors" Padding="12" Margin="0,0,0,12" Grid.Row="3">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -100,7 +157,7 @@
         </GroupBox>
 
         <!-- Footer Buttons -->
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Cancel" Padding="20,8" IsCancel="True" Width="100" Margin="0,0,8,0"/>
             <Button Content="Save" Padding="20,8" Click="SaveButton_Click" Width="100" IsDefault="True"/>
         </StackPanel>

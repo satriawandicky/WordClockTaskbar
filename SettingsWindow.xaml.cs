@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Windows;
 using WordClockTaskbar.Models;
 using WordClockTaskbar.ViewModels;
@@ -11,6 +12,10 @@ public partial class SettingsWindow : Window
     public SettingsWindow()
     {
         InitializeComponent();
+
+        UtcInputTextBox.Text = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+        var preferredTimezone = TimezoneConfig.Load().Timezones.FirstOrDefault()?.TimezoneId;
+        ConverterTimezoneComboBox.SelectedValue = preferredTimezone ?? TimeZoneInfo.Utc.Id;
     }
 
     private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -21,7 +26,7 @@ public partial class SettingsWindow : Window
             return;
         }
 
-        var firstAvailableTimezone = ViewModel.AvailableTimezoneIds.FirstOrDefault() ?? "UTC";
+        var firstAvailableTimezone = ViewModel.AvailableTimezones.FirstOrDefault()?.Id ?? TimeZoneInfo.Utc.Id;
         ViewModel.AddTimezone("NEW", firstAvailableTimezone);
     }
 
@@ -65,5 +70,40 @@ public partial class SettingsWindow : Window
 
         DialogResult = true;
         Close();
+    }
+
+    private void ConvertUtcButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (!DateTime.TryParse(
+                UtcInputTextBox.Text,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.AllowWhiteSpaces,
+                out var parsedUtc))
+        {
+            ConversionResultTextBlock.Text = "Use format yyyy-MM-dd HH:mm, for example 2026-09-06 12:30.";
+            return;
+        }
+
+        if (ConverterTimezoneComboBox.SelectedValue is not string timezoneId ||
+            !TimeZoneInfo.TryFindSystemTimeZoneById(timezoneId, out var timezone))
+        {
+            ConversionResultTextBlock.Text = "Select a target timezone.";
+            return;
+        }
+
+        var utc = DateTime.SpecifyKind(parsedUtc, DateTimeKind.Utc);
+        var converted = TimeZoneInfo.ConvertTimeFromUtc(utc, timezone);
+        var offset = timezone.GetUtcOffset(utc);
+        var sign = offset < TimeSpan.Zero ? "-" : "+";
+        var absoluteOffset = offset.Duration();
+
+        ConversionResultTextBlock.Text =
+            $"{converted:yyyy-MM-dd HH:mm}  (UTC{sign}{absoluteOffset.Hours:D2}:{absoluteOffset.Minutes:D2})";
+    }
+
+    private void UseUtcNowButton_Click(object sender, RoutedEventArgs e)
+    {
+        UtcInputTextBox.Text = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+        ConvertUtcButton_Click(sender, e);
     }
 }

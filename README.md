@@ -2,9 +2,9 @@
 
 A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar with customizable colors and themes.
 
-[![Download v1.2.0](https://img.shields.io/badge/download-v1.2.0-blue)](https://github.com/satriawandicky/WordClockTaskbar/raw/master/releases/WordClockTaskbar-Setup-v1.2.0.exe)
+[![Download v1.3.0](https://img.shields.io/badge/download-v1.3.0-blue)](https://github.com/satriawandicky/WordClockTaskbar/raw/master/releases/WordClockTaskbar-Setup-v1.3.0.exe)
 
-**Latest download:** [WordClockTaskbar-Setup-v1.2.0.exe](https://github.com/satriawandicky/WordClockTaskbar/raw/master/releases/WordClockTaskbar-Setup-v1.2.0.exe)<br>
+**Latest download:** [WordClockTaskbar-Setup-v1.3.0.exe](https://github.com/satriawandicky/WordClockTaskbar/raw/master/releases/WordClockTaskbar-Setup-v1.3.0.exe)<br>
 **Release page:** [GitHub Releases](https://github.com/satriawandicky/WordClockTaskbar/releases)
 
 ## 📋 Table of Contents
@@ -48,17 +48,23 @@ A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar
 
 ### 3. **Customizable Timezones**
    - Choose from **all Windows timezone IDs**
-   - Edit custom labels (e.g., "US" → "NY")
+   - Edit flexible 1-3 letter labels (e.g., "US" → "NY")
    - Reorder timezones using ↑↓ buttons
    - Automatically saves configuration to JSON
+   - Open Settings by right-clicking or double-clicking the widget
 
-### 4. **Custom Colors & Themes**
+### 4. **UTC Time Converter**
+   - Enter any UTC date and time
+   - Convert it to any installed Windows timezone
+   - Uses the correct daylight-saving offset for the selected date
+
+### 5. **Custom Colors & Themes**
    - Change **background**, **text**, and **label** colors
    - Hex color format (`#FFFFFF`, `#FF0000`, etc.)
    - Default: **White text** on a dark background
    - Real-time preview
 
-### 5. **System Tray Integration**
+### 6. **System Tray Integration**
    - **Tray Icon** for quick access
    - **Context menu:**
      - Position (Left / Center / Right)
@@ -67,7 +73,7 @@ A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar
      - Start with Windows (auto-launch)
      - Exit
 
-### 6. **Window Management**
+### 7. **Window Management**
    - **Frameless, always-on-top** window
    - Reasserts topmost state when another window or overlay covers it
    - **Drag-to-move** functionality
@@ -81,7 +87,7 @@ A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar
 ### **Option 1: Setup Installer (Recommended)**
 
 1. **Download the latest Windows x64 installer:**
-   [WordClockTaskbar-Setup-v1.2.0.exe](https://github.com/satriawandicky/WordClockTaskbar/raw/master/releases/WordClockTaskbar-Setup-v1.2.0.exe)
+   [WordClockTaskbar-Setup-v1.3.0.exe](https://github.com/satriawandicky/WordClockTaskbar/raw/master/releases/WordClockTaskbar-Setup-v1.3.0.exe)
 
 2. **Run Installer:**
    - Registers WordClock in Windows Search and Start Menu
@@ -124,8 +130,8 @@ dotnet run
 ### **Default 2-Row Stacked View**
 ```
 ┌───────────────────────────┐
-│ ID 01:30   UK 18:30       │
-│ US 13:30   JP 03:30       │
+│ US 13:30   DIA 00:00      │
+│ UK 18:30   JPN 03:30      │
 └───────────────────────────┘
 ```
 - **Label:** Timezone identifier (US, UK, IN, etc.)

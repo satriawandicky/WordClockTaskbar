@@ -83,6 +83,20 @@ public partial class MainWindow : Window
         ReassertTopmost();
     }
 
+    public void OpenSettings()
+    {
+        var settingsWindow = new SettingsWindow { Owner = this };
+        if (settingsWindow.ShowDialog() != true)
+            return;
+
+        var config = TimezoneConfig.Load();
+        if (DataContext is ClockViewModel vm)
+            vm.ReloadConfig();
+
+        SetAlwaysOnTop(config.IsAlwaysOnTop);
+        RefreshLayoutAndPosition();
+    }
+
     private void FitToTimezoneCount()
     {
         if (DataContext is not ClockViewModel vm)
@@ -179,6 +193,13 @@ public partial class MainWindow : Window
     protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
     {
         base.OnMouseLeftButtonDown(e);
+        if (e.ClickCount == 2)
+        {
+            OpenSettings();
+            e.Handled = true;
+            return;
+        }
+
         if (e.ButtonState == MouseButtonState.Pressed)
         {
             DragMove();
@@ -190,5 +211,31 @@ public partial class MainWindow : Window
     {
         base.OnDeactivated(e);
         ReassertTopmost();
+    }
+
+    private void WidgetContextMenu_Opened(object sender, RoutedEventArgs e)
+    {
+        AlwaysOnTopMenuItem.IsChecked = TimezoneConfig.Load().IsAlwaysOnTop;
+    }
+
+    private void SettingsMenuItem_Click(object sender, RoutedEventArgs e) => OpenSettings();
+
+    private void AlwaysOnTopMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        var config = TimezoneConfig.Load();
+        config.IsAlwaysOnTop = AlwaysOnTopMenuItem.IsChecked;
+        config.Save();
+        SetAlwaysOnTop(config.IsAlwaysOnTop);
+    }
+
+    private void ResetPositionMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        EnsureVisible(resetPosition: true);
+        SavePosition();
+    }
+
+    private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        System.Windows.Application.Current.Shutdown();
     }
 }

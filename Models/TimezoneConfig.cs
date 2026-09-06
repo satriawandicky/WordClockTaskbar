@@ -106,10 +106,10 @@ public class TimezoneConfig
 
     private static List<TimezoneEntry> GetDefaultTimezones() =>
     [
-        new() { Label = "ID", TimezoneId = "SE Asia Standard Time", Order = 0 },
-        new() { Label = "US", TimezoneId = "Eastern Standard Time", Order = 1 },
-        new() { Label = "UK", TimezoneId = "GMT Standard Time", Order = 2 },
-        new() { Label = "JP", TimezoneId = "Tokyo Standard Time", Order = 3 }
+        new() { Label = "US", TimezoneId = "Eastern Standard Time", Order = 0 },
+        new() { Label = "UK", TimezoneId = "GMT Standard Time", Order = 1 },
+        new() { Label = "DIA", TimezoneId = "India Standard Time", Order = 2 },
+        new() { Label = "JPN", TimezoneId = "Tokyo Standard Time", Order = 3 }
     ];
 }
 
