@@ -3,8 +3,10 @@
 A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar with customizable colors and themes.
 
 [![Latest Release](https://img.shields.io/github/v/release/satriawandicky/WordClockTaskbar?label=latest%20release)](https://github.com/satriawandicky/WordClockTaskbar/releases/latest)
+[![Download v1.2.0](https://img.shields.io/badge/download-v1.2.0-blue)](https://github.com/satriawandicky/WordClockTaskbar/raw/master/releases/WordClockTaskbar-Setup-v1.2.0.exe)
 
-**Latest download:** [GitHub Releases](https://github.com/satriawandicky/WordClockTaskbar/releases/latest)
+**Latest download:** [WordClockTaskbar-Setup-v1.2.0.exe](https://github.com/satriawandicky/WordClockTaskbar/raw/master/releases/WordClockTaskbar-Setup-v1.2.0.exe)<br>
+**Release page:** [GitHub Releases](https://github.com/satriawandicky/WordClockTaskbar/releases)
 
 ## 📋 Table of Contents
 - [What is WordClock?](#what-is-wordclock)
@@ -80,7 +82,7 @@ A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar
 ### **Option 1: Setup Installer (Recommended)**
 
 1. **Download the latest Windows x64 installer:**
-   Open the [latest GitHub Release](https://github.com/satriawandicky/WordClockTaskbar/releases/latest) and download the setup executable.
+   [WordClockTaskbar-Setup-v1.2.0.exe](https://github.com/satriawandicky/WordClockTaskbar/raw/master/releases/WordClockTaskbar-Setup-v1.2.0.exe)
 
 2. **Run Installer:**
    - Registers WordClock in Windows Search and Start Menu
