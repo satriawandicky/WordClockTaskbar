@@ -3,10 +3,8 @@
 A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar with customizable colors and themes.
 
 [![Latest Release](https://img.shields.io/github/v/release/satriawandicky/WordClockTaskbar?label=latest%20release)](https://github.com/satriawandicky/WordClockTaskbar/releases/latest)
-[![Download Setup Installer](https://img.shields.io/badge/download-Setup%20Installer-blue)](https://github.com/satriawandicky/WordClockTaskbar/raw/master/releases/WordClockTaskbar-Setup-v1.1.0.exe)
 
-**Latest download:** [WordClockTaskbar-Setup-v1.1.0.exe](https://github.com/satriawandicky/WordClockTaskbar/raw/master/releases/WordClockTaskbar-Setup-v1.1.0.exe)<br>
-**Release page:** [GitHub Releases](https://github.com/satriawandicky/WordClockTaskbar/releases/latest)
+**Latest download:** [GitHub Releases](https://github.com/satriawandicky/WordClockTaskbar/releases/latest)
 
 ## 📋 Table of Contents
 - [What is WordClock?](#what-is-wordclock)
@@ -19,7 +17,7 @@ A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar
 
 ## 🎯 What is WordClock?
 
-**WordClock** is a lightweight taskbar application that displays real-time for **up to 5 different timezones** directly on your Windows 11 taskbar in a clean, stacked 2-row text widget. The application runs in the background (system tray) and does not require opening a large window or terminal.
+**WordClock** is a lightweight taskbar application that displays real-time for **up to 4 different timezones** directly on your Windows 11 taskbar in a compact 2x2 text widget. The application runs in the background (system tray) and does not require opening a large window or terminal.
 
 ### Use Cases:
 - ✅ Coordinate with teams across different timezones
@@ -36,7 +34,8 @@ A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar
 ## ✨ Key Features
 
 ### 1. **Multi-Timezone 2-Row Stacked Display**
-   - Displays up to **5 timezones simultaneously** in 2 stacked rows (e.g. US top, UK bottom)
+   - Displays up to **4 timezones simultaneously** in a 2-column x 2-row layout
+   - Country labels are limited to **3 letters**
    - Clean string-only text (no flags needed)
    - **24-hour** format (HH:mm)
    - Shows compact labels and time; GMT offset is available on hover
@@ -81,7 +80,7 @@ A sleek, real-time multi-timezone clock that displays on your Windows 11 taskbar
 ### **Option 1: Setup Installer (Recommended)**
 
 1. **Download the latest Windows x64 installer:**
-   [WordClockTaskbar-Setup-v1.1.0.exe](https://github.com/satriawandicky/WordClockTaskbar/raw/master/releases/WordClockTaskbar-Setup-v1.1.0.exe)
+   Open the [latest GitHub Release](https://github.com/satriawandicky/WordClockTaskbar/releases/latest) and download the setup executable.
 
 2. **Run Installer:**
    - Registers WordClock in Windows Search and Start Menu
@@ -109,7 +108,10 @@ dotnet build
 dotnet run
 
 # Publish (create standalone exe)
-dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true
+.\build-release.ps1 -SkipInstaller
+
+# Publish and build the setup installer (requires Inno Setup 6)
+.\build-release.ps1
 ```
 
 **Requirements:** .NET 8 SDK
@@ -121,8 +123,8 @@ dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=
 ### **Default 2-Row Stacked View**
 ```
 ┌───────────────────────────┐
-│ US 14:30   IN 00:00       │
-│ UK 19:30   JP 03:30       │
+│ ID 01:30   UK 18:30       │
+│ US 13:30   JP 03:30       │
 └───────────────────────────┘
 ```
 - **Label:** Timezone identifier (US, UK, IN, etc.)

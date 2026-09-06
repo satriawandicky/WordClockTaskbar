@@ -4,7 +4,7 @@
         xmlns:vm="clr-namespace:WordClockTaskbar.ViewModels"
         Title="WorldClock"
         Height="36"
-        Width="180"
+        Width="164"
         MinWidth="80"
         MaxWidth="500"
         WindowStyle="None"
@@ -36,7 +36,8 @@
                 <DataTemplate>
                     <StackPanel Orientation="Vertical"
                                 VerticalAlignment="Center"
-                                Margin="6,0">
+                                Width="72"
+                                Margin="0">
                         <!-- Top Clock -->
                         <ContentControl Content="{Binding TopClock}">
                             <ContentControl.ContentTemplate>
@@ -52,7 +53,9 @@
                                                    FontWeight="SemiBold"
                                                    Opacity="0.75"
                                                    VerticalAlignment="Center"
-                                                   Margin="0,0,4,0"/>
+                                                   Width="24"
+                                                   TextAlignment="Left"
+                                                   Margin="0,0,3,0"/>
                                         <TextBlock Text="{Binding Time}"
                                                    Foreground="{DynamicResource ForegroundColor}"
                                                    FontFamily="Segoe UI Variable Text, Segoe UI"
@@ -89,7 +92,9 @@
                                                    FontWeight="SemiBold"
                                                    Opacity="0.75"
                                                    VerticalAlignment="Center"
-                                                   Margin="0,0,4,0"/>
+                                                   Width="24"
+                                                   TextAlignment="Left"
+                                                   Margin="0,0,3,0"/>
                                         <TextBlock Text="{Binding Time}"
                                                    Foreground="{DynamicResource ForegroundColor}"
                                                    FontFamily="Segoe UI Variable Text, Segoe UI"

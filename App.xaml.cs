@@ -16,9 +16,12 @@ namespace WordClockTaskbar;
 
 public partial class App : Application
 {
+    private const string SingleInstanceMutexName = @"Local\WordClockTaskbar.Singleton";
+
     private System.Windows.Forms.NotifyIcon? _notifyIcon;
     private System.Windows.Forms.ToolStripMenuItem? _updateItem;
     private UpdateInfo? _pendingUpdate;
+    private Mutex? _singleInstanceMutex;
 
     protected override void OnStartup(StartupEventArgs e)
     {
@@ -32,17 +35,37 @@ public partial class App : Application
         DispatcherUnhandledException += (s, args) =>
         {
             LogException(args.Exception);
+            System.Windows.MessageBox.Show(
+                "WordClock encountered an error. Details were written to %APPDATA%\\WordClockTaskbar\\error.log.",
+                "WordClock Taskbar", MessageBoxButton.OK, MessageBoxImage.Error);
             args.Handled = true;
         };
 
         try
         {
+            _singleInstanceMutex = new Mutex(initiallyOwned: true, SingleInstanceMutexName, out var isFirstInstance);
+            if (!isFirstInstance)
+            {
+                System.Windows.MessageBox.Show(
+                    "WordClock Taskbar is already running. Look for its clock icon in the system tray.",
+                    "WordClock Taskbar", MessageBoxButton.OK, MessageBoxImage.Information);
+                Shutdown();
+                return;
+            }
+
+            var mainWindow = new MainWindow();
+            MainWindow = mainWindow;
             CreateTrayIcon();
+            mainWindow.Show();
             _ = CheckForUpdatesAsync(silent: true);
         }
         catch (Exception ex)
         {
             LogException(ex);
+            System.Windows.MessageBox.Show(
+                "WordClock Taskbar could not start. Details were written to %APPDATA%\\WordClockTaskbar\\error.log.",
+                "WordClock Taskbar", MessageBoxButton.OK, MessageBoxImage.Error);
+            Shutdown(-1);
         }
     }
 
@@ -65,7 +88,7 @@ public partial class App : Application
         _notifyIcon = new System.Windows.Forms.NotifyIcon
         {
             Icon = CreateClockIcon(),
-            Text = "World Clock - EU | UK | IN",
+            Text = "WordClock Taskbar",
             Visible = true
         };
 
@@ -316,8 +339,7 @@ public partial class App : Application
 
     private static void ToggleAutoStart()
     {
-        using var key = Registry.CurrentUser.OpenSubKey(AutoStartKey, writable: true);
-        if (key == null) return;
+        using var key = Registry.CurrentUser.CreateSubKey(AutoStartKey, writable: true);
 
         if (key.GetValue(AppName) != null)
         {
@@ -334,6 +356,12 @@ public partial class App : Application
     protected override void OnExit(ExitEventArgs e)
     {
         _notifyIcon?.Dispose();
+        if (_singleInstanceMutex is not null)
+        {
+            try { _singleInstanceMutex.ReleaseMutex(); }
+            catch (ApplicationException) { }
+            _singleInstanceMutex.Dispose();
+        }
         base.OnExit(e);
     }
 }

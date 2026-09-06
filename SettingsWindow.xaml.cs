@@ -15,9 +15,9 @@ public partial class SettingsWindow : Window
 
     private void AddButton_Click(object sender, RoutedEventArgs e)
     {
-        if (ViewModel.Timezones.Count >= 5)
+        if (ViewModel.Timezones.Count >= TimezoneConfig.MaxTimezones)
         {
-            System.Windows.MessageBox.Show("Maximum 5 timezones allowed.", "Cannot Add", MessageBoxButton.OK, MessageBoxImage.Information);
+            System.Windows.MessageBox.Show("Maximum 4 timezones allowed.", "Cannot Add", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
 
@@ -29,6 +29,11 @@ public partial class SettingsWindow : Window
     {
         if (sender is FrameworkElement fe && fe.DataContext is TimezoneEntry entry)
         {
+            if (ViewModel.Timezones.Count <= 1)
+            {
+                System.Windows.MessageBox.Show("Keep at least one timezone.", "Cannot Remove", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
             ViewModel.RemoveTimezone(entry);
         }
     }

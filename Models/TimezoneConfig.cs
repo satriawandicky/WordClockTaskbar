@@ -13,6 +13,9 @@ public class ThemeSettings
 
 public class TimezoneConfig
 {
+    public const int MaxTimezones = 4;
+    public const int MaxLabelLength = 3;
+
     public List<TimezoneEntry> Timezones { get; set; } = new();
     public ThemeSettings Theme { get; set; } = new();
     public bool IsAlwaysOnTop { get; set; } = true;
@@ -32,7 +35,9 @@ public class TimezoneConfig
             if (File.Exists(ConfigPath))
             {
                 var json = File.ReadAllText(ConfigPath);
-                return JsonSerializer.Deserialize<TimezoneConfig>(json) ?? GetDefaults();
+                var config = JsonSerializer.Deserialize<TimezoneConfig>(json) ?? GetDefaults();
+                config.Normalize();
+                return config;
             }
         }
         catch { }
@@ -43,6 +48,7 @@ public class TimezoneConfig
     {
         try
         {
+            Normalize();
             var dir = Path.GetDirectoryName(ConfigPath);
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir!);
@@ -53,18 +59,58 @@ public class TimezoneConfig
         catch { }
     }
 
+    public static string NormalizeLabel(string? label, int index = 0)
+    {
+        var normalized = (label ?? string.Empty).Trim().ToUpperInvariant();
+        if (normalized.Length > MaxLabelLength)
+            normalized = normalized[..MaxLabelLength];
+
+        return string.IsNullOrWhiteSpace(normalized) ? $"T{index + 1}" : normalized;
+    }
+
+    private void Normalize()
+    {
+        Theme ??= new ThemeSettings();
+        Timezones ??= new List<TimezoneEntry>();
+
+        Timezones = Timezones
+            .Where(entry => entry is not null)
+            .OrderBy(entry => entry.Order)
+            .Take(MaxTimezones)
+            .ToList();
+
+        if (Timezones.Count == 0)
+        {
+            Timezones = GetDefaultTimezones();
+            return;
+        }
+
+        for (var i = 0; i < Timezones.Count; i++)
+        {
+            var entry = Timezones[i];
+            entry.Label = NormalizeLabel(entry.Label, i);
+            entry.TimezoneId = TimeZoneInfo.TryFindSystemTimeZoneById(entry.TimezoneId, out _)
+                ? entry.TimezoneId
+                : TimeZoneInfo.Utc.Id;
+            entry.Order = i;
+        }
+    }
+
     private static TimezoneConfig GetDefaults()
     {
         return new TimezoneConfig
         {
-            Timezones = new()
-            {
-                new() { Label = "US", TimezoneId = "Eastern Standard Time", Order = 0 },
-                new() { Label = "UK", TimezoneId = "GMT Standard Time", Order = 1 },
-                new() { Label = "IN", TimezoneId = "India Standard Time", Order = 2 }
-            }
+            Timezones = GetDefaultTimezones()
         };
     }
+
+    private static List<TimezoneEntry> GetDefaultTimezones() =>
+    [
+        new() { Label = "ID", TimezoneId = "SE Asia Standard Time", Order = 0 },
+        new() { Label = "US", TimezoneId = "Eastern Standard Time", Order = 1 },
+        new() { Label = "UK", TimezoneId = "GMT Standard Time", Order = 2 },
+        new() { Label = "JP", TimezoneId = "Tokyo Standard Time", Order = 3 }
+    ];
 }
 
 public class TimezoneEntry

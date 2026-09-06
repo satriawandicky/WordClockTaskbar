@@ -8,7 +8,9 @@ public class TimezoneClockModel
     public TimezoneClockModel(string label, string timezoneId)
     {
         Label = label;
-        TimezoneInfo = TimeZoneInfo.FindSystemTimeZoneById(timezoneId);
+        TimezoneInfo = TimeZoneInfo.TryFindSystemTimeZoneById(timezoneId, out var timezone)
+            ? timezone
+            : TimeZoneInfo.Utc;
     }
 
     public string GetCurrentTime()

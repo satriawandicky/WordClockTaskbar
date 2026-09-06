@@ -47,10 +47,10 @@ public class SettingsViewModel : INotifyPropertyChanged
 
     public void AddTimezone(string label, string timezoneId)
     {
-        if (Timezones.Count >= 5) return;
+        if (Timezones.Count >= TimezoneConfig.MaxTimezones) return;
         var entry = new TimezoneEntry
         {
-            Label = label,
+            Label = TimezoneConfig.NormalizeLabel(label, Timezones.Count),
             TimezoneId = timezoneId,
             Order = Timezones.Count
         };
@@ -59,6 +59,7 @@ public class SettingsViewModel : INotifyPropertyChanged
 
     public void RemoveTimezone(TimezoneEntry entry)
     {
+        if (Timezones.Count <= 1) return;
         Timezones.Remove(entry);
         UpdateOrder();
     }
@@ -92,8 +93,13 @@ public class SettingsViewModel : INotifyPropertyChanged
     public void SaveConfig()
     {
         _config.Timezones.Clear();
-        foreach (var tz in Timezones)
+        for (var i = 0; i < Math.Min(Timezones.Count, TimezoneConfig.MaxTimezones); i++)
+        {
+            var tz = Timezones[i];
+            tz.Label = TimezoneConfig.NormalizeLabel(tz.Label, i);
+            tz.Order = i;
             _config.Timezones.Add(tz);
+        }
         _config.Theme.BackgroundColor = BackgroundColor;
         _config.Theme.TextColor = TextColor;
         _config.Theme.LabelColor = LabelColor;

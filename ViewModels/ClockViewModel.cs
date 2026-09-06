@@ -104,9 +104,9 @@ public class ClockViewModel : INotifyPropertyChanged
     public ClockViewModel()
     {
         var config = TimezoneConfig.Load();
-        foreach (var entry in config.Timezones.OrderBy(t => t.Order))
+        foreach (var entry in config.Timezones.OrderBy(t => t.Order).Take(TimezoneConfig.MaxTimezones))
         {
-            Timezones.Add(new TimezoneDisplayModel(entry.Label, entry.TimezoneId));
+            Timezones.Add(new TimezoneDisplayModel(TimezoneConfig.NormalizeLabel(entry.Label), entry.TimezoneId));
         }
 
         UpdateTimes();
@@ -127,9 +127,9 @@ public class ClockViewModel : INotifyPropertyChanged
     {
         var config = TimezoneConfig.Load();
         Timezones.Clear();
-        foreach (var entry in config.Timezones.OrderBy(t => t.Order))
+        foreach (var entry in config.Timezones.OrderBy(t => t.Order).Take(TimezoneConfig.MaxTimezones))
         {
-            Timezones.Add(new TimezoneDisplayModel(entry.Label, entry.TimezoneId));
+            Timezones.Add(new TimezoneDisplayModel(TimezoneConfig.NormalizeLabel(entry.Label), entry.TimezoneId));
         }
         UpdateTimes();
         UpdateColumns();

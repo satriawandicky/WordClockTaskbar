@@ -1,7 +1,7 @@
 ; WordClock Taskbar - Inno Setup Installer Script
 
 #define MyAppName "WordClock Taskbar"
-#define MyAppVersion "1.1.0"
+#define MyAppVersion "1.2.0"
 #define MyAppPublisher "WordClock"
 #define MyAppExeName "WordClockTaskbar.exe"
 #define MyAppURL "https://github.com/satriawandicky/WordClockTaskbar"
@@ -12,7 +12,7 @@ AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
-DefaultDirName={autopf}\{#MyAppName}
+DefaultDirName={localappdata}\Programs\{#MyAppName}
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 OutputDir=releases
@@ -22,12 +22,12 @@ Compression=lzma2/ultra64
 SolidCompression=yes
 WizardStyle=modern
 PrivilegesRequired=lowest
-PrivilegesRequiredOverridesAllowed=dialog
 UninstallDisplayIcon={app}\{#MyAppExeName}
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 CloseApplications=yes
 RestartApplications=no
+AppMutex=Local\WordClockTaskbar.Singleton
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
